@@ -1,0 +1,24 @@
+/*C20*/SET SCHEMA PUBLIC
+alter table comment add column date_time bigint not null
+create table discussion (id integer not null, date_time bigint not null, post varchar(255), user_name varchar(255), primary key (id))
+create table discussion_comment_list (discussion_id integer not null, comment_list_id integer not null)
+create table discussion_list_of_user_dis_liked (discussion_id integer not null, list_of_user_dis_liked varchar(255))
+create table discussion_list_of_user_liked (discussion_id integer not null, list_of_user_liked varchar(255))
+create table topic (id integer not null, date_time bigint not null, post varchar(255), subject varchar(255), url varchar(255), username varchar(255), primary key (id))
+create table topic_discussions (topic_id integer not null, discussions_id integer not null)
+create table topic_key_words (topic_id integer not null, key_words varchar(255))
+create table topic_list_of_user_dis_liked (topic_id integer not null, list_of_user_dis_liked varchar(255))
+create table topic_list_of_user_liked (topic_id integer not null, list_of_user_liked varchar(255))
+create table topic_tags (topic_id integer not null, tags varchar(255))
+alter table discussion_comment_list add constraint UK_kvr9r6hwv4xvri2qkq06bc22x unique (comment_list_id)
+alter table topic_discussions add constraint UK_1matnvgworq4nexa7sjnp0gk7 unique (discussions_id)
+alter table discussion_comment_list add constraint FKb07caqvmptpx80xe9moif9du5 foreign key (comment_list_id) references comment
+alter table discussion_comment_list add constraint FK2tux400xyal4i311s9jo50ryx foreign key (discussion_id) references discussion
+alter table discussion_list_of_user_dis_liked add constraint FKrrwjvb6g88byh6acqaxhv9ybx foreign key (discussion_id) references discussion
+alter table discussion_list_of_user_liked add constraint FKlxcpvqfv1eqsricvm0rvesy9x foreign key (discussion_id) references discussion
+alter table topic_discussions add constraint FKthas7jb29w8pha39jdd90t3gh foreign key (discussions_id) references discussion
+alter table topic_discussions add constraint FKqh4ble1ctd4yiu71ehbvmrfdp foreign key (topic_id) references topic
+alter table topic_key_words add constraint FK94ljqxyjlginae29xkmpxnqux foreign key (topic_id) references topic
+alter table topic_list_of_user_dis_liked add constraint FKawjvxpd0mftlcqbynwe5f7n12 foreign key (topic_id) references topic
+alter table topic_list_of_user_liked add constraint FKkyrnyctpnijs6esb3a7m3ilhn foreign key (topic_id) references topic
+alter table topic_tags add constraint FKscf0cxqrflq236keg9iwm19sr foreign key (topic_id) references topic
