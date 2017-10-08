@@ -25,10 +25,16 @@ public class ResourceMappingController {
         return "index";
     }
 
+    @GetMapping("/dashboard")
+    public String getDashboard() {
+        return "dashboard";
+    }
+
     @GetMapping("/addTopic")
     public String addTopic() {
         return "addTopic";
     }
+
     @GetMapping("/index")
     public String index() {
         return "index";

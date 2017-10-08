@@ -4,17 +4,28 @@ import com.example.websocketdemo.model.ChatMessage;
 import com.example.websocketdemo.model.Comment;
 import com.example.websocketdemo.model.Discussion;
 import com.example.websocketdemo.model.Topic;
+import com.example.websocketdemo.service.SqlService;
+import com.google.gson.Gson;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 import java.util.concurrent.CompletionException;
 
 @Controller
 public class DiscussionController {
+
+    @Autowired
+    SqlService sqlService;
+
+    private Gson gson = new Gson();
 
     @MessageMapping("/chat.sendMessage")
     @SendTo("/channel/public")
@@ -33,7 +44,7 @@ public class DiscussionController {
     @MessageMapping("/chat.addTopic")
     @SendTo("/channel/public")
     public Topic addTopic(@Payload Topic topic,
-                               SimpMessageHeaderAccessor headerAccessor) {
+                          SimpMessageHeaderAccessor headerAccessor) {
         headerAccessor.getSessionAttributes().put("username", topic.getUsername());
         return topic;
     }
@@ -41,7 +52,7 @@ public class DiscussionController {
     @MessageMapping("/chat.addDiscussion")
     @SendTo("/channel/public")
     public Discussion addDiscussion(@Payload Discussion discussion,
-                                     SimpMessageHeaderAccessor headerAccessor) {
+                                    SimpMessageHeaderAccessor headerAccessor) {
         headerAccessor.getSessionAttributes().put("username", discussion.getUserName());
         return discussion;
     }
@@ -49,18 +60,16 @@ public class DiscussionController {
     @MessageMapping("/chat.addComment")
     @SendTo("/channel/public")
     public Comment addComment(@Payload Comment comment,
-                                          SimpMessageHeaderAccessor headerAccessor) {
+                              SimpMessageHeaderAccessor headerAccessor) {
         headerAccessor.getSessionAttributes().put("username", comment.getUserName());
         return comment;
     }
 
 
-//    @MessageMapping("/chat.addUser")
-//    @SendTo("/channel/public")
-//    public List<Topic> getAllTopic() {
-//
-//        return discussion;
-//    }
+    @PostMapping("/topics")
+    public ResponseEntity<String> getAllTopic() {
+        return new ResponseEntity<>(gson.toJson(sqlService.getAllTopic()), HttpStatus.ACCEPTED);
+    }
 
 
 }
