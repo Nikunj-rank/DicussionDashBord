@@ -21,7 +21,6 @@
 </head>
 <body>
     <!-- Navigation -->
-    <div id="dashboardPage" class="hide">dashboard</div>
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -55,38 +54,65 @@
     <!-- Page Content -->
     <div class="container">
         <div class="jumbotron">
-            <button id="newTopic" class="form-control btn-primary">Add Topic</button>
-            <table id="postTable" class="table table-borderless table-condensed table-hover ">
-                <tr>
-                    <th>Firespill</th>
-                    <th>Title</th>
-                    <th>Like</th>
-                    <th>DisLike</th>
-                </tr>
-                <!--<tr>
-                    <td><img src="http://placehold.it/140x100" alt=""></td>
-                    <td>
-                        <h4>
-                            <a href="#">Wizards Battle</a> 
-                            <span class="time"><sup>9 hours ago</sup></span>
-                        </h4>
-                        <p>See more snippets like this online store item at See more snippets like this online store item at See more snippets like this online store item at See more snippets like this online store item at See more snippets like this online store item at See more snippets like this online store item at .</p>
-                    </td>
-                    <td>5,782</td>
-                    <td>100%</td>
-                    <td>Yes</td>
-                    <td>85,212</td>
-                </tr>-->
-            </table>
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="email">Subject </label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" placeholder="Subject"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2" >Tags </label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" data-role="tagsinput" placeholder="Tags"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Category </label>
+                    <div class="col-sm-6">
+                        <select class="form-control">
+                            <option>Option1</option>
+                            <option>Option2</option>
+                            <option>Option3</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Key words </label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" data-role="tagsinput" placeholder="Keywords"/>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
-
+    <div class="container">
+        <div class="jumbotron">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-6">
+                        <h4>What are you Fired Up About? C'mon Spill it</h4>
+                    </div>
+                </div>
+               
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-6">
+                        <textarea rows="6" cols="1" class="form-control" placeholder="255 Characters"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-default">Create Spark</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
     <!-- /.container -->
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
-    <script src="js/main.js"></script>
 
     <script src="https://cdn.jsdelivr.net/bootstrap.tagsinput/0.4.2/bootstrap-tagsinput.min.js"></script>
 </body>

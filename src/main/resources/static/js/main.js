@@ -16,6 +16,14 @@ var colors = [
     '#ffc107', '#ff85af', '#FF9800', '#39bbb0'
 ];
 
+var commonConstants = {
+    sServiceLocation: ""
+};
+
+var oServiceGlobal = {
+    oAjaxRequest: null
+}
+
 var oCommonObject = {
     /* Wrapper function to call specified method of the service with specified parameters, success and failure functions */
     callService: function (sWebMethodName, oParameters, onSuccess, onFailure, onBeforeSend, oParam) {
@@ -36,7 +44,7 @@ var oCommonObject = {
             success: function (result) {
                 if ("function" === typeof (onSuccess)) {
                     if (oParam) {
-                        var oFinalResult = { "Result": result, "oParam": oParam };
+                        var oFinalResult = {"Result": result, "oParam": oParam};
                         onSuccess(oFinalResult);
                     } else {
                         onSuccess(result);
@@ -46,7 +54,7 @@ var oCommonObject = {
             beforeSend: function (result) {
                 if ("function" === typeof (onBeforeSend)) {
                     if (oParam) {
-                        var oFinalResult = { "Result": result, "oParam": oParam };
+                        var oFinalResult = {"Result": result, "oParam": oParam};
                         onBeforeSend(oFinalResult);
                     } else {
                         onBeforeSend(result);
@@ -56,7 +64,7 @@ var oCommonObject = {
             error: function (result) {
                 if ("function" === typeof (onFailure)) {
                     if (oParam) {
-                        var oFinalResult = { "Result": result, "oParam": oParam };
+                        var oFinalResult = {"Result": result, "oParam": oParam};
                         onFailure(oFinalResult);
                     } else {
                         onFailure(result);
@@ -91,13 +99,11 @@ function onConnected() {
     // Tell your username to the server
     stompClient.send("/app/chat.addUser",
         {},
-        JSON.stringify({ sender: username, type: 'JOIN' })
+        JSON.stringify({sender: username, type: 'JOIN'})
     )
 
     // connectingElement.classList.add('hidden');
 }
-
-
 
 
 function onError(error) {
@@ -185,30 +191,37 @@ function getAvatarColor(messageSender) {
     var index = Math.abs(hash % colors.length);
     return colors[index];
 }
-function getPostSuccess(data){
-var tableRow = "<tr>"+
-                    "<td><img src='http://placehold.it/140x100' alt=''></td>"+
-                    "<td>"+
-                        "<h4>"+
-                            "<a href='#'>{{topicName}}</a> "+
-                            "<span class='time'><sup>9 hours ago</sup></span>"+
-                        "</h4>"+
-                        "<p>{{topicDesc}}</p>"+
-                    "</td>"+
-                    "<td>{{topicLike}}</td>"+
-                    "<td>{{topicDisLike}}</td>"+
-                "</tr>";
-              $.each(data,function(key,value){
-                  var row = tableRow.replace("{{topicName}}",value.subject).replace("{{topicDesc}}",value.desc).replace("{{topicLike}}",value.listOfUserLiked.Length).replace("{{topicDisLike}}",value.listOfUserDisLiked.Length);
-                   $("#postTable").append(row);
-            });
+
+function getPostSuccess(data) {
+    var tableRow = "<tr>" +
+        "<td><img src='http://placehold.it/140x100' alt=''></td>" +
+        "<td>" +
+        "<h4>" +
+        "<a href='#'>{{topicName}}</a> " +
+        "<span class='time'><sup>9 hours ago</sup></span>" +
+        "</h4>" +
+        "<p>{{topicDesc}}</p>" +
+        "</td>" +
+        "<td>{{topicLike}}</td>" +
+        "<td>{{topicDisLike}}</td>" +
+        "</tr>";
+    if (data) {
+        $.each(data, function (key, value) {
+            var row = tableRow.replace("{{topicName}}", value.subject).replace("{{topicDesc}}", value.desc).replace("{{topicLike}}", value.listOfUserLiked.Length).replace("{{topicDisLike}}", value.listOfUserDisLiked.Length);
+            $("#postTable").append(row);
+        });
+    }
+}
+
+function getPostFailure(data) {
+    console.log(data);
 }
 
 $(document).ready(function () {
     //usernameForm.addEventListener('submit', connect, true);
     if (0 !== $("#dashboardPage").length) {
 
-        oCommonObject.callService("get/stock/all", localStorage.getItem('userName'), getPostSuccess, getPostFailure, null, null);
+        oCommonObject.callService("topics", localStorage.getItem('userName'), getPostSuccess, getPostFailure, null, null);
     } else if (0 !== $("#indexPage").length) {
 
     }
@@ -220,13 +233,16 @@ $(document).ready(function () {
     $("#login-submit").on('click', function (event) {
         doLogin(event);
     });
+    $("#newTopic").on('click',function(event){
+        window.location.href="addTopic.html";
+    });
 
     // messageForm.addEventListener('submit', sendMessage, true)
 });
 
 function doLogin(event) {
     localStorage.setItem("userName", $("#userNameId").val());
-    var oLoginDetail = { "username": $("#userNameId").val(), "password": $("#passwordId").val() };
+    var oLoginDetail = {"username": $("#userNameId").val(), "password": $("#passwordId").val()};
     console.log(oLoginDetail);
     post("login", oLoginDetail);
 }
