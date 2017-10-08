@@ -46,7 +46,7 @@ public class DiscussionController {
         return discussion;
     }
 
-    @MessageMapping("/chat.addDiscussion")
+    @MessageMapping("/chat.addComment")
     @SendTo("/channel/public")
     public Comment addComment(@Payload Comment comment,
                                           SimpMessageHeaderAccessor headerAccessor) {

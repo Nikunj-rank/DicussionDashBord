@@ -58,12 +58,12 @@ function sendMessage(event) {
 
     if(messageContent && stompClient) {
         var chatMessage = {
-            sender: username,
-            content: messageInput.value,
-            type: 'CHAT'
+            userName: username,
+            comment: messageInput.value
+            // type: 'CHAT'
         };
 
-        stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
+        stompClient.send("/app/chat.addComment", {}, JSON.stringify(chatMessage));
         messageInput.value = '';
     }
     event.preventDefault();
@@ -89,9 +89,9 @@ function onMessageReceived(payload) {
         "<div class='chat-body clearfix'>"+
         "<div class='header'>"+
         "<small class=' text-muted'><span class='glyphicon glyphicon-time'></span>15 mins ago</small>"+
-        "<strong class='pull-right primary-font'>"+message.sender+"</strong>"+
+        "<strong class='pull-right primary-font'>"+message.userName+"</strong>"+
         "</div>"+
-        "<p>"+message.content+
+        "<p>"+message.comment+
         "</p>"+
         "</div>"+
         "</li>";
