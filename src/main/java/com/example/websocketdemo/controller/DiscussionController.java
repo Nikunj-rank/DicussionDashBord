@@ -15,6 +15,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.concurrent.CompletionException;
@@ -69,6 +70,12 @@ public class DiscussionController {
     @PostMapping("/topics")
     public ResponseEntity<String> getAllTopic() {
         return new ResponseEntity<>(gson.toJson(sqlService.getAllTopic()), HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping("/topic")
+    public ResponseEntity<Boolean> getAllTopic(@RequestBody Topic topic) {
+        sqlService.addTopic(topic);
+        return new ResponseEntity<>( HttpStatus.ACCEPTED);
     }
 
 

@@ -18,4 +18,8 @@ public class SqlService {
         topicRepo.findAll().forEach(topics::add);
         return topics;
     }
+
+    public void addTopic(Topic topic){
+        topicRepo.save(topic);
+    }
 }
