@@ -217,6 +217,13 @@ function getPostFailure(data) {
     console.log(data);
 }
 
+function addTopicSuccess(data){
+    window.location.href="dashboard";
+}
+function addTopicFailure(data){
+
+}
+
 $(document).ready(function () {
     //usernameForm.addEventListener('submit', connect, true);
     if (0 !== $("#dashboardPage").length) {
@@ -234,7 +241,22 @@ $(document).ready(function () {
         doLogin(event);
     });
     $("#newTopic").on('click',function(event){
-        window.location.href="addTopic.html";
+        window.location.href="addTopic";
+    });
+    $("#createTopicButton").on('click',function(event){
+         var oTopicDetails = {
+                    "subject":$("#subjectName").val(),
+                    "tags":"",
+                    "keyWords":"",
+                    "desc":$("#description").val(),
+                    "url":"",
+                    "username":localStorage.getItem('userName'),
+                    "listOfUserLiked":null,
+                    "listOfUserDisLiked":null,
+                    "discussions":null,
+                    "dateTime":null
+                };
+                 oCommonObject.callService("topic", oTopicDetails, addTopicSuccess, addTopicFailure, null, null);
     });
 
     // messageForm.addEventListener('submit', sendMessage, true)
