@@ -19,7 +19,7 @@ public class Topic {
     private List<String> tags;
     @ElementCollection
     private List<String> keyWords;
-    private String post;
+    private String desc;
     private String url;
     private String username;
     @ElementCollection
