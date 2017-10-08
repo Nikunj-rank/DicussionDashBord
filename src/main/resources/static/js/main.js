@@ -3,10 +3,10 @@
 var usernamePage = document.querySelector('#username-page');
 var chatPage = document.querySelector('#chat-page');
 var usernameForm = document.querySelector('#usernameForm');
-var messageForm = document.querySelector('#messageForm');
-var messageInput = document.querySelector('#message');
-var messageArea = document.querySelector('#messageArea');
-var connectingElement = document.querySelector('.connecting');
+// var messageForm = document.querySelector('#messageForm');
+ var messageInput = document.querySelector('#message');
+ var messageArea = document.querySelector('#messageArea');
+// var connectingElement = document.querySelector('.connecting');
 
 var stompClient = null;
 var username = null;
@@ -43,13 +43,13 @@ function onConnected() {
         JSON.stringify({sender: username, type: 'JOIN'})
     )
 
-    connectingElement.classList.add('hidden');
+    // connectingElement.classList.add('hidden');
 }
 
 
 function onError(error) {
-    connectingElement.textContent = 'Could not connect to WebSocket server. Please refresh this page to try again!';
-    connectingElement.style.color = 'red';
+    // connectingElement.textContent = 'Could not connect to WebSocket server. Please refresh this page to try again!';
+    // connectingElement.style.color = 'red';
 }
 
 
@@ -75,36 +75,51 @@ function onMessageReceived(payload) {
 
     var messageElement = document.createElement('li');
 
-    if(message.type === 'JOIN') {
-        messageElement.classList.add('event-message');
-        message.content = message.sender + ' joined!';
-    } else if (message.type === 'LEAVE') {
-        messageElement.classList.add('event-message');
-        message.content = message.sender + ' left!';
-    } else {
-        messageElement.classList.add('chat-message');
+    // if(message.type === 'JOIN') {
+    //     messageElement.classList.add('event-message');
+    //     message.content = message.sender + ' joined!';
+    // } else if (message.type === 'LEAVE') {
+    //     messageElement.classList.add('event-message');
+    //     message.content = message.sender + ' left!';
+    // } else {
+        var MessageBox = "<li class='right clearfix'>"+
+        "<span class='chat-img pull-right'>"+
+        "<img src='http://placehold.it/50/FA6F57/fff&text=RGB' alt='User Avatar' class='img-circle' />"+
+        "</span>"+
+        "<div class='chat-body clearfix'>"+
+        "<div class='header'>"+
+        "<small class=' text-muted'><span class='glyphicon glyphicon-time'></span>15 mins ago</small>"+
+        "<strong class='pull-right primary-font'>"+message.sender+"</strong>"+
+        "</div>"+
+        "<p>"+message.content+
+        "</p>"+
+        "</div>"+
+        "</li>";
+        $('#messageArea').append(MessageBox);
 
-        var avatarElement = document.createElement('i');
-        var avatarText = document.createTextNode(message.sender[0]);
-        avatarElement.appendChild(avatarText);
-        avatarElement.style['background-color'] = getAvatarColor(message.sender);
+    //     messageElement.classList.add('chat-message');
 
-        messageElement.appendChild(avatarElement);
+    //     var avatarElement = document.createElement('i');
+    //     var avatarText = document.createTextNode(message.sender[0]);
+    //     avatarElement.appendChild(avatarText);
+    //     avatarElement.style['background-color'] = getAvatarColor(message.sender);
 
-        var usernameElement = document.createElement('span');
-        var usernameText = document.createTextNode(message.sender);
-        usernameElement.appendChild(usernameText);
-        messageElement.appendChild(usernameElement);
-    }
+    //     messageElement.appendChild(avatarElement);
 
-    var textElement = document.createElement('p');
-    var messageText = document.createTextNode(message.content);
-    textElement.appendChild(messageText);
+    //     var usernameElement = document.createElement('span');
+    //     var usernameText = document.createTextNode(message.sender);
+    //     usernameElement.appendChild(usernameText);
+    //     messageElement.appendChild(usernameElement);
+    // // }
 
-    messageElement.appendChild(textElement);
+    // var textElement = document.createElement('p');
+    // var messageText = document.createTextNode(message.content);
+    // textElement.appendChild(messageText);
 
-    messageArea.appendChild(messageElement);
-    messageArea.scrollTop = messageArea.scrollHeight;
+    // messageElement.appendChild(textElement);
+
+    // messageArea.appendChild(messageElement);
+    // messageArea.scrollTop = messageArea.scrollHeight;
 }
 
 
@@ -118,5 +133,10 @@ function getAvatarColor(messageSender) {
     return colors[index];
 }
 
-usernameForm.addEventListener('submit', connect, true)
-messageForm.addEventListener('submit', sendMessage, true)
+$(document).ready(function(){
+usernameForm.addEventListener('submit', connect, true);
+$("#btn-send-comment").click(function(){
+    sendMessage();
+});
+// messageForm.addEventListener('submit', sendMessage, true)
+});
