@@ -47,6 +47,8 @@ function onConnected() {
 }
 
 
+
+
 function onError(error) {
     // connectingElement.textContent = 'Could not connect to WebSocket server. Please refresh this page to try again!';
     // connectingElement.style.color = 'red';
@@ -134,9 +136,44 @@ function getAvatarColor(messageSender) {
 }
 
 $(document).ready(function(){
-usernameForm.addEventListener('submit', connect, true);
+//usernameForm.addEventListener('submit', connect, true);
+
 $("#btn-send-comment").click(function(){
     sendMessage();
 });
+
+$("#login-submit").on('click',function(event){
+    doLogin(event);
+});
+
 // messageForm.addEventListener('submit', sendMessage, true)
 });
+
+function doLogin(event){
+    localStorage.setItem("userName",$("#userNameId").val());
+    var oLoginDetail = {"username":$("#userNameId").val(),"password" : $("#passwordId").val()};
+    console.log(oLoginDetail);
+    post("login",oLoginDetail);
+}
+
+function post(path, params, method) {
+    method = method || "post";
+
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", path);
+
+    for (var key in params) {
+        if (params.hasOwnProperty(key)) {
+            var hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", key);
+            hiddenField.setAttribute("value", params[key]);
+
+            form.appendChild(hiddenField);
+        }
+    }
+
+    document.body.appendChild(form);
+    form.submit();
+}

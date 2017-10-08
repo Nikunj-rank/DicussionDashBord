@@ -1,4 +1,4 @@
-/*C11*/SET SCHEMA PUBLIC
+/*C20*/SET SCHEMA PUBLIC
 alter table discussion_comment_list drop constraint UK_kvr9r6hwv4xvri2qkq06bc22x
 alter table discussion_comment_list add constraint UK_kvr9r6hwv4xvri2qkq06bc22x unique (comment_list_id)
 alter table topic_discussions drop constraint UK_1matnvgworq4nexa7sjnp0gk7
