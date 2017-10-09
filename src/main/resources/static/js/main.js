@@ -105,7 +105,7 @@ function onError(error) {
 }
 
 
-function sendMessage(event, messageType) {
+function sendMessage(event, messageType,discussionIdValue) {
     if ("addDiscussion" == messageType) {
         var messageContent = $("#discussionDesc").val();
 
@@ -131,7 +131,7 @@ function sendMessage(event, messageType) {
 
         if (messageContent && stompClient) {
             var chatMessage = {
-                discussionId:1,
+                discussionId:discussionIdValue,
                 listOfUserLiked:null,
                 listOfUserDisLiked:null,
                 dateTime:null,
@@ -172,7 +172,7 @@ function onMessageReceived(payload) {
             "</p>" +
             "</div>" +
             "</li>";
-        $('#messageArea').append(MessageBox);
+        $(".discussion"+message.discussionId+"").append(MessageBox);
     } else if (message.messageType == "DISCUSSION") {
         var discussionChunk = "<li class='timeline-inverted'>" +
         "<div class='timeline-badge warning'><i class='glyphicon glyphicon-credit-card'></i></div>" +
@@ -206,7 +206,7 @@ function onMessageReceived(payload) {
         "<div class='input-group'>" +
         "<input id='message' type='text' autocomplete='off' class='form-control input-sm' placeholder='Type your comment here...' />" +
         "<span class='input-group-btn'>" +
-        "<button type='submit' class='btn btn-warning btn-sm' id='btn-send-comment'>" +
+        "<button type='submit' data-discussionId='"+message.id+"' class='btn btn-warning btn-sm btn-send-comment' >" +
         "Comment" +
         "</button>" +
         "</span>" +
@@ -333,7 +333,7 @@ function getTopicListSuccess(data) {
         "<div class='input-group'>" +
         "<input id='message' type='text' autocomplete='off' class='form-control input-sm' placeholder='Type your comment here...' />" +
         "<span class='input-group-btn'>" +
-        "<button type='submit' class='btn btn-warning btn-sm' id='btn-send-comment'>" +
+        "<button type='submit' data-discussionId='"+value.discussionId+"' class='btn btn-warning btn-sm btn-send-comment'>" +
         "Comment" +
         "</button>" +
         "</span>" +
@@ -359,7 +359,7 @@ function getTopicListSuccess(data) {
             "</p>" +
             "</div>" +
             "</li>";
-        $("#discussion"+value.discussionId+"").append(MessageBox);
+        $(".discussion"+value.discussionId+"").append(MessageBox);
         });
     });
      
@@ -386,8 +386,9 @@ $(document).ready(function () {
 
     }
 
-    $("#btn-send-comment").click(function (event) {
-        sendMessage(event, "addComment");
+    $(".btn-send-comment").click(function (event) {
+        var discussionId = $(this).attr("data-discussionId");
+        sendMessage(event, "addComment",discussionId);
     });
 
     $("#login-submit").on('click', function (event) {
@@ -414,7 +415,7 @@ $(document).ready(function () {
     });
 
     $("#addNewDiscussion").on('click', function (event) {
-        sendMessage(event, "addDiscussion");
+        sendMessage(event, "addDiscussion","");
 
     });
 
