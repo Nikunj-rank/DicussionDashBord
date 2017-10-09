@@ -198,7 +198,7 @@ function onMessageReceived(payload) {
         "</div>" +
         "<div class='panel-collapse collapse' id='collapseOne'>" +
         "<div class='panel-body'>" +
-        "<ul class='chat discussion"+message.id+"' id='messageArea'>" +
+        "<ul class='chat discussion"+message.discussionId+"' id='messageArea'>" +
 
         "</ul>" +
         "</div>" +
@@ -272,7 +272,7 @@ function getPostSuccess(data) {
         "</tr>";
     if (data) {
         $.each(topicData, function (key, value) {
-            var row = tableRow.replace("{{topicName}}", value.subject).replace("{{topicDesc}}", value.desc).replace("{{topicLike}}", value.listOfUserLiked.Length).replace("{{topicDisLike}}", value.listOfUserDisLiked.Length).replace("{{tId}}", value.id);
+            var row = tableRow.replace("{{topicName}}", value.subject).replace("{{topicDesc}}", value.desc).replace("{{topicLike}}", value.listOfUserLiked.Length).replace("{{topicDisLike}}", value.listOfUserDisLiked.Length).replace("{{tId}}", value.topicId);
             $("#postTable").append(row);
         });
     }
@@ -326,7 +326,7 @@ function getTopicListSuccess(data) {
         "</div>" +
         "<div class='panel-collapse collapse' id='collapseOne'>" +
         "<div class='panel-body'>" +
-        "<ul class='chat discussion"+value.id+"' id='messageArea'>" +
+        "<ul class='chat discussion"+value.discussionId+"' id='messageArea'>" +
         "</ul>" +
         "</div>" +
         "<div class='panel-footer'>" +
@@ -359,7 +359,7 @@ function getTopicListSuccess(data) {
             "</p>" +
             "</div>" +
             "</li>";
-        $("#discussion"+value.id+"").append(MessageBox);
+        $("#discussion"+value.discussionId+"").append(MessageBox);
         });
     });
      

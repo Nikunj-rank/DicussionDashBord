@@ -19,6 +19,8 @@ public class SqlService {
     @Autowired
     DiscussionRepo discussionRepo;
 
+    int count=1;
+
     public List<Topic> getAllTopic(){
         List<Topic> topics = new ArrayList<>();
         topicRepo.findAll().forEach(topics::add);
@@ -34,6 +36,7 @@ public class SqlService {
     }
 
     public void addDiscussion(Discussion discussion){
+        discussion.setDiscussionId(count++);
         Topic one = topicRepo.findOne(discussion.getTopicId());
         one.getDiscussions().add(discussion);
         discussionRepo.save(discussion);

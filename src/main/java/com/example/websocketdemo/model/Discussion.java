@@ -1,5 +1,6 @@
 package com.example.websocketdemo.model;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,10 +10,12 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@EqualsAndHashCode(of = {"topicId", "discussionId"}, callSuper = false)
+@IdClass(DiscussionPk.class)
 public class Discussion {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private int discussionId;
+    @Id
     private int topicId;
     private String post;
     private String userName;
