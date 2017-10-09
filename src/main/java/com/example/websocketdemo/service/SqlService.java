@@ -34,6 +34,8 @@ public class SqlService {
     }
 
     public void addDiscussion(Discussion discussion){
+        Topic one = topicRepo.findOne(discussion.getTopicId());
+        one.getDiscussions().add(discussion);
         discussionRepo.save(discussion);
     }
 }
