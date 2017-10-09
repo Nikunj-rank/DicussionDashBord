@@ -249,15 +249,15 @@ $(document).ready(function () {
 
         oCommonObject.callService("topics", localStorage.getItem('userName'), getPostSuccess, getPostFailure, null, null);
     } else if (0 !== $("#indexPage").length) {
-
-    } else if (0 !== $("#addTopicPage").length) {
         var topicId = getUrlVars()["topicId"];
-        if (null == topicId && "" == topicId) {
+        if (null !== topicId && "" !== topicId) {
             oCommonObject.callService("topic/id", Number(topicId), getTopicListSuccess, getTopicListFailure, null, null);
-           
+
         }else{
-             window.location.href = "dashboard";
+            window.location.href = "dashboard";
         }
+    } else if (0 !== $("#addTopicPage").length) {
+
     }
 
     $("#btn-send-comment").click(function (event) {
