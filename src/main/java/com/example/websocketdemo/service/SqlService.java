@@ -22,4 +22,8 @@ public class SqlService {
     public void addTopic(Topic topic){
         topicRepo.save(topic);
     }
+
+    public Topic getTopic(int topicId){
+        return topicRepo.findOne(topicId);
+    }
 }
