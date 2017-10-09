@@ -246,7 +246,7 @@ $(document).ready(function () {
     });
     $("#createTopicButton").on('click',function(event){
          var oTopicDetails = {
-                    "id":1,
+                    // "id":1,
                     "subject":$("#subjectName").val(),
                     "tags":null,
                     "keyWords":null,

@@ -72,7 +72,7 @@ public class DiscussionController {
         return new ResponseEntity<>(gson.toJson(sqlService.getAllTopic()), HttpStatus.ACCEPTED);
     }
 
-    @PostMapping("/topic")
+    @PostMapping(value = "/topic", headers = "Accept=application/json")
     public ResponseEntity<Boolean> getAllTopic(@RequestBody Topic topic) {
         sqlService.addTopic(topic);
         return new ResponseEntity<>( HttpStatus.ACCEPTED);

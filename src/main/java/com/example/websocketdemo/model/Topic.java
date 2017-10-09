@@ -11,6 +11,7 @@ import java.util.List;
 @Entity
 public class Topic {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String subject;
     @ElementCollection
