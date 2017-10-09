@@ -13,6 +13,7 @@ public class Discussion {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+    private int topicId;
     private String post;
     private String userName;
     @ElementCollection

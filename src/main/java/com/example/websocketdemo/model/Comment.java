@@ -17,6 +17,7 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+    private int discussionId;
     private String comment;
     private String userName;
     @ElementCollection
