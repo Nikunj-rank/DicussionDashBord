@@ -42,19 +42,12 @@ public class DiscussionController {
         return chatMessage;
     }
 
-    @MessageMapping("/chat.addTopic")
-    @SendTo("/channel/public")
-    public Topic addTopic(@Payload Topic topic,
-                          SimpMessageHeaderAccessor headerAccessor) {
-        headerAccessor.getSessionAttributes().put("username", topic.getUsername());
-        return topic;
-    }
-
     @MessageMapping("/chat.addDiscussion")
     @SendTo("/channel/public")
     public Discussion addDiscussion(@Payload Discussion discussion,
                                     SimpMessageHeaderAccessor headerAccessor) {
-        headerAccessor.getSessionAttributes().put("username", discussion.getUserName());
+        headerAccessor.getSessionAttributes().put("type", "discussion");
+        sqlService.addDiscussion(discussion);
         return discussion;
     }
 

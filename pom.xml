@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.example</groupId>
-	<artifactId>websocket-demo</artifactId>
+	<artifactId>DiscussionDashBord</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>websocket-demo</name>
+	<name>DiscussionDashBord</name>
 	<description>Demo project for Spring Boot</description>
 
 	<parent>

@@ -1,5 +1,6 @@
 package com.example.websocketdemo.model;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,10 +10,11 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@EqualsAndHashCode(of = {"topicId"}, callSuper = false)
 public class Topic {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private int topicId;
     private String subject;
     @ElementCollection
     private List<String> tags;
@@ -25,7 +27,8 @@ public class Topic {
     private List<String> listOfUserLiked;
     @ElementCollection
     private List<String> listOfUserDisLiked;
-    @ElementCollection
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "topicId")
     private List<Discussion> discussions;
     private long dateTime;
+    MessageType messageType;
 }
