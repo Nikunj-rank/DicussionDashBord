@@ -44,7 +44,7 @@ var oCommonObject = {
             success: function (result) {
                 if ("function" === typeof (onSuccess)) {
                     if (oParam) {
-                        var oFinalResult = {"Result": result, "oParam": oParam};
+                        var oFinalResult = { "Result": result, "oParam": oParam };
                         onSuccess(oFinalResult);
                     } else {
                         onSuccess(result);
@@ -54,7 +54,7 @@ var oCommonObject = {
             beforeSend: function (result) {
                 if ("function" === typeof (onBeforeSend)) {
                     if (oParam) {
-                        var oFinalResult = {"Result": result, "oParam": oParam};
+                        var oFinalResult = { "Result": result, "oParam": oParam };
                         onBeforeSend(oFinalResult);
                     } else {
                         onBeforeSend(result);
@@ -64,7 +64,7 @@ var oCommonObject = {
             error: function (result) {
                 if ("function" === typeof (onFailure)) {
                     if (oParam) {
-                        var oFinalResult = {"Result": result, "oParam": oParam};
+                        var oFinalResult = { "Result": result, "oParam": oParam };
                         onFailure(oFinalResult);
                     } else {
                         onFailure(result);
@@ -99,7 +99,7 @@ function onConnected() {
     // Tell your username to the server
     stompClient.send("/app/chat.addUser",
         {},
-        JSON.stringify({sender: username, type: 'JOIN'})
+        JSON.stringify({ sender: username, type: 'JOIN' })
     )
 
     // connectingElement.classList.add('hidden');
@@ -193,12 +193,12 @@ function getAvatarColor(messageSender) {
 }
 
 function getPostSuccess(data) {
-    var topicData=JSON.parse(data);
+    var topicData = JSON.parse(data);
     var tableRow = "<tr>" +
         "<td><img src='http://placehold.it/140x100' alt=''></td>" +
         "<td>" +
         "<h4>" +
-        "<a href='#'>{{topicName}}</a> " +
+        "<a href='index?topicId={{tId}}'>{{topicName}}</a> " +
         "<span class='time'><sup>9 hours ago</sup></span>" +
         "</h4>" +
         "<p>{{topicDesc}}</p>" +
@@ -208,7 +208,7 @@ function getPostSuccess(data) {
         "</tr>";
     if (data) {
         $.each(topicData, function (key, value) {
-            var row = tableRow.replace("{{topicName}}", value.subject).replace("{{topicDesc}}", value.desc).replace("{{topicLike}}", value.listOfUserLiked.Length).replace("{{topicDisLike}}", value.listOfUserDisLiked.Length);
+            var row = tableRow.replace("{{topicName}}", value.subject).replace("{{topicDesc}}", value.desc).replace("{{topicLike}}", value.listOfUserLiked.Length).replace("{{topicDisLike}}", value.listOfUserDisLiked.Length).replace("{{tId}}", value.id);
             $("#postTable").append(row);
         });
     }
@@ -218,11 +218,22 @@ function getPostFailure(data) {
     console.log(data);
 }
 
-function addTopicSuccess(data){
-    window.location.href="dashboard";
+function addTopicSuccess(data) {
+    window.location.href = "dashboard";
 }
-function addTopicFailure(data){
+function addTopicFailure(data) {
     console.log(data);
+}
+
+function getUrlVars() {
+    var vars = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for (var i = 0; i < hashes.length; i++) {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = hash[1];
+    }
+    return vars;
 }
 
 $(document).ready(function () {
@@ -232,6 +243,14 @@ $(document).ready(function () {
         oCommonObject.callService("topics", localStorage.getItem('userName'), getPostSuccess, getPostFailure, null, null);
     } else if (0 !== $("#indexPage").length) {
 
+    } else if (0 !== $("#addTopicPage").length) {
+        var topicId = getUrlVars()["topicId"];
+        if (null == topicId && "" == topicId) {
+            oCommonObject.callService("topic/id", Number(topicId), getPostSuccess, getPostFailure, null, null);
+           
+        }else{
+             window.location.href = "dashboard";
+        }
     }
 
     $("#btn-send-comment").click(function (event) {
@@ -241,24 +260,24 @@ $(document).ready(function () {
     $("#login-submit").on('click', function (event) {
         doLogin(event);
     });
-    $("#newTopic").on('click',function(event){
-        window.location.href="addTopic";
+    $("#newTopic").on('click', function (event) {
+        window.location.href = "addTopic";
     });
-    $("#createTopicButton").on('click',function(event){
-         var oTopicDetails = {
-                    // "id":1,
-                    "subject":$("#subjectName").val(),
-                    "tags":null,
-                    "keyWords":null,
-                    "desc":$("#description").val(),
-                    "url":"",
-                    "username":localStorage.getItem('userName'),
-                    "listOfUserLiked":null,
-                    "listOfUserDisLiked":null,
-                    "discussions":null,
-                    "dateTime":null
-                };
-                 oCommonObject.callService("topic", oTopicDetails, addTopicSuccess, addTopicFailure, null, null);
+    $("#createTopicButton").on('click', function (event) {
+        var oTopicDetails = {
+            // "id":1,
+            "subject": $("#subjectName").val(),
+            "tags": null,
+            "keyWords": null,
+            "desc": $("#description").val(),
+            "url": "",
+            "username": localStorage.getItem('userName'),
+            "listOfUserLiked": null,
+            "listOfUserDisLiked": null,
+            "discussions": null,
+            "dateTime": null
+        };
+        oCommonObject.callService("topic", oTopicDetails, addTopicSuccess, addTopicFailure, null, null);
     });
 
     // messageForm.addEventListener('submit', sendMessage, true)
@@ -266,7 +285,7 @@ $(document).ready(function () {
 
 function doLogin(event) {
     localStorage.setItem("userName", $("#userNameId").val());
-    var oLoginDetail = {"username": $("#userNameId").val(), "password": $("#passwordId").val()};
+    var oLoginDetail = { "username": $("#userNameId").val(), "password": $("#passwordId").val() };
     console.log(oLoginDetail);
     post("login", oLoginDetail);
 }
