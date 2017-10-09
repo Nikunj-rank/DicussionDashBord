@@ -1,8 +1,4 @@
 'use strict';
-
-var usernamePage = document.querySelector('#username-page');
-var chatPage = document.querySelector('#chat-page');
-var usernameForm = document.querySelector('#usernameForm');
 // var messageForm = document.querySelector('#messageForm');
 var messageInput = document.querySelector('#message');
 var messageArea = document.querySelector('#messageArea');
@@ -75,20 +71,17 @@ var oCommonObject = {
     }
 };
 
-function connect(event) {
-    username = document.querySelector('#name').value.trim();
+function connect() {
+    username = localStorage.getItem('userName');
 
     if (username) {
-
-        usernamePage.classList.add('hidden');
-        chatPage.classList.remove('hidden');
 
         var socket = new SockJS('/ws');
         stompClient = Stomp.over(socket);
 
         stompClient.connect({}, onConnected, onError);
     }
-    event.preventDefault();
+    // event.preventDefault();
 }
 
 
@@ -112,18 +105,45 @@ function onError(error) {
 }
 
 
-function sendMessage(event) {
-    var messageContent = messageInput.value.trim();
+function sendMessage(event, messageType) {
+    if ("addDiscussion" == messageType) {
+        var messageContent = $("#discussionDesc").val();
 
-    if (messageContent && stompClient) {
-        var chatMessage = {
-            userName: username,
-            comment: messageInput.value
-            // type: 'CHAT'
-        };
+        if (messageContent && stompClient) {
+            var chatMessage = {
+                topicId:getUrlVars()["topicId"],
+                post: messageContent,
+                userName: username,
+                commentList:null,
+                listOfUserLiked:null,
+                listOfUserDisLiked:null,
+                dateTime:null,
+                messageType:"DISCUSSION"
 
-        stompClient.send("/app/chat.addComment", {}, JSON.stringify(chatMessage));
-        messageInput.value = '';
+                // type: 'CHAT'
+            };
+
+            stompClient.send("/app/chat.addDiscussion", {}, JSON.stringify(chatMessage));
+            messageInput.value = '';
+        }
+    } else if ("addComment" == messageType) {
+        var messageContent = messageInput.value.trim();
+
+        if (messageContent && stompClient) {
+            var chatMessage = {
+                discussionId:1,
+                listOfUserLiked:null,
+                listOfUserDisLiked:null,
+                dateTime:null,
+                userName: username,
+                comment: messageInput.value,
+                messageType:"COMMENT"
+                // type: 'CHAT'
+            };
+
+            stompClient.send("/app/chat.addComment", {}, JSON.stringify(chatMessage));
+            messageInput.value = '';
+        }
     }
     event.preventDefault();
 }
@@ -131,30 +151,74 @@ function sendMessage(event) {
 
 function onMessageReceived(payload) {
     var message = JSON.parse(payload.body);
-
-    var messageElement = document.createElement('li');
-
-    // if(message.type === 'JOIN') {
-    //     messageElement.classList.add('event-message');
-    //     message.content = message.sender + ' joined!';
-    // } else if (message.type === 'LEAVE') {
-    //     messageElement.classList.add('event-message');
-    //     message.content = message.sender + ' left!';
-    // } else {
-    var MessageBox = "<li class='right clearfix'>" +
-        "<span class='chat-img pull-right'>" +
-        "<img src='http://placehold.it/50/FA6F57/fff&text=RGB' alt='User Avatar' class='img-circle' />" +
-        "</span>" +
-        "<div class='chat-body clearfix'>" +
-        "<div class='header'>" +
-        "<small class=' text-muted'><span class='glyphicon glyphicon-time'></span>15 mins ago</small>" +
-        "<strong class='pull-right primary-font'>" + message.userName + "</strong>" +
+    if (message.messageType == "COMMENT") {
+        // if(message.type === 'JOIN') {
+        //     messageElement.classList.add('event-message');
+        //     message.content = message.sender + ' joined!';
+        // } else if (message.type === 'LEAVE') {
+        //     messageElement.classList.add('event-message');
+        //     message.content = message.sender + ' left!';
+        // } else {
+        var MessageBox = "<li class='right clearfix'>" +
+            "<span class='chat-img pull-right'>" +
+            "<img src='http://placehold.it/50/FA6F57/fff&text=RGB' alt='User Avatar' class='img-circle' />" +
+            "</span>" +
+            "<div class='chat-body clearfix'>" +
+            "<div class='header'>" +
+            "<small class=' text-muted'><span class='glyphicon glyphicon-time'></span>15 mins ago</small>" +
+            "<strong class='pull-right primary-font'>" + message.userName + "</strong>" +
+            "</div>" +
+            "<p>" + message.comment +
+            "</p>" +
+            "</div>" +
+            "</li>";
+        $('#messageArea').append(MessageBox);
+    } else if (message.messageType == "DISCUSSION") {
+        var discussionChunk = "<li class='timeline-inverted'>" +
+        "<div class='timeline-badge warning'><i class='glyphicon glyphicon-credit-card'></i></div>" +
+        "<div class='timeline-panel'>" +
+        "<div class='timeline-heading'>"+
+                        "<h4 class='timeline-title'>"+message.userName+"</h4>"+
+                        "<p><small class='text-muted'><i class='glyphicon glyphicon-time'/> 11/09/2014 </small></p>"+
+                    "</div>"+
+        "<div class='timeline-body'>" +
+        "<p>"+message.post+
         "</div>" +
-        "<p>" + message.comment +
-        "</p>" +
+        "<hr/>" +
+        "<div class='timeline-footer'>" +
+        "<div class='panel panel-primary'>" +
+        "<div class='panel-heading' id='accordion'>" +
+        "<span class='label label-danger'>5</span>" +
+        "<span class='glyphicon glyphicon-comment'></span> Comments" +
+        "<div class='btn-group pull-right'>" +
+        "<a type='button' class='btn btn-default btn-xs' data-toggle='collapse' data-parent='#accordion' href='#collapseOne'>" +
+        "<span class='glyphicon glyphicon-chevron-down'></span>" +
+        "</a>" +
+        "</div>" +
+        "</div>" +
+        "<div class='panel-collapse collapse' id='collapseOne'>" +
+        "<div class='panel-body'>" +
+        "<ul class='chat' id='messageArea'>" +
+
+        "</ul>" +
+        "</div>" +
+        "<div class='panel-footer'>" +
+        "<div class='input-group'>" +
+        "<input id='message' type='text' autocomplete='off' class='form-control input-sm' placeholder='Type your comment here...' />" +
+        "<span class='input-group-btn'>" +
+        "<button type='submit' class='btn btn-warning btn-sm' id='btn-send-comment'>" +
+        "Comment" +
+        "</button>" +
+        "</span>" +
+        "</div>" +
+        "</div>" +
+        "</div>" +
+        "</div>" +
+        "</div>" +
         "</div>" +
         "</li>";
-    $('#messageArea').append(MessageBox);
+        $("#topicList").append(discussionChunk);
+    }
 
     //     messageElement.classList.add('chat-message');
 
@@ -236,24 +300,64 @@ function getUrlVars() {
     return vars;
 }
 
-function getTopicListSuccess(data){
+function getTopicListSuccess(data) {
+    var discussionChunk = "<li class='timeline-inverted'>" +
+        "<div class='timeline-badge warning'><i class='glyphicon glyphicon-credit-card'></i></div>" +
+        "<div class='timeline-panel'>" +
+        "<div class='timeline-body'>" +
+        "<p>Discussion description</p>" +
+        "</div>" +
+        "<hr/>" +
+        "<div class='timeline-footer'>" +
+        "<div class='panel panel-primary'>" +
+        "<div class='panel-heading' id='accordion'>" +
+        "<span class='label label-danger'>5</span>" +
+        "<span class='glyphicon glyphicon-comment'></span> Comments" +
+        "<div class='btn-group pull-right'>" +
+        "<a type='button' class='btn btn-default btn-xs' data-toggle='collapse' data-parent='#accordion' href='#collapseOne'>" +
+        "<span class='glyphicon glyphicon-chevron-down'></span>" +
+        "</a>" +
+        "</div>" +
+        "</div>" +
+        "<div class='panel-collapse collapse' id='collapseOne'>" +
+        "<div class='panel-body'>" +
+        "<ul class='chat' id='messageArea'>" +
+
+        "</ul>" +
+        "</div>" +
+        "<div class='panel-footer'>" +
+        "<div class='input-group'>" +
+        "<input id='message' type='text' autocomplete='off' class='form-control input-sm' placeholder='Type your message here...' />" +
+        "<span class='input-group-btn'>" +
+        "<button type='submit' class='btn btn-warning btn-sm' id='btn-send-comment'>" +
+        "Comment" +
+        "</button>" +
+        "</span>" +
+        "</div>" +
+        "</div>" +
+        "</div>" +
+        "</div>" +
+        "</div>" +
+        "</div>" +
+        "</li>";
+    connect();
     console.log(data);
 }
-function getTopicListFailure(data){
+function getTopicListFailure(data) {
     console.log(data);
 }
 
 $(document).ready(function () {
     //usernameForm.addEventListener('submit', connect, true);
     if (0 !== $("#dashboardPage").length) {
-
+        localS
         oCommonObject.callService("topics", localStorage.getItem('userName'), getPostSuccess, getPostFailure, null, null);
     } else if (0 !== $("#indexPage").length) {
         var topicId = getUrlVars()["topicId"];
         if (null !== topicId && "" !== topicId) {
             oCommonObject.callService("topic/id", Number(topicId), getTopicListSuccess, getTopicListFailure, null, null);
 
-        }else{
+        } else {
             window.location.href = "dashboard";
         }
     } else if (0 !== $("#addTopicPage").length) {
@@ -261,7 +365,7 @@ $(document).ready(function () {
     }
 
     $("#btn-send-comment").click(function (event) {
-        sendMessage(event);
+        sendMessage(event, "addComment");
     });
 
     $("#login-submit").on('click', function (event) {
@@ -285,6 +389,11 @@ $(document).ready(function () {
             "dateTime": null
         };
         oCommonObject.callService("topic", oTopicDetails, addTopicSuccess, addTopicFailure, null, null);
+    });
+
+    $("#addNewDiscussion").on('click', function (event) {
+        sendMessage(event, "addDiscussion");
+
     });
 
     // messageForm.addEventListener('submit', sendMessage, true)
