@@ -3,9 +3,7 @@ package com.example.websocketdemo.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.List;
 
 @Getter
@@ -13,6 +11,7 @@ import java.util.List;
 @Entity
 public class Discussion {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String post;
     private String userName;

@@ -193,6 +193,7 @@ function getAvatarColor(messageSender) {
 }
 
 function getPostSuccess(data) {
+    var topicData=JSON.parse(data);
     var tableRow = "<tr>" +
         "<td><img src='http://placehold.it/140x100' alt=''></td>" +
         "<td>" +
@@ -206,7 +207,7 @@ function getPostSuccess(data) {
         "<td>{{topicDisLike}}</td>" +
         "</tr>";
     if (data) {
-        $.each(data, function (key, value) {
+        $.each(topicData, function (key, value) {
             var row = tableRow.replace("{{topicName}}", value.subject).replace("{{topicDesc}}", value.desc).replace("{{topicLike}}", value.listOfUserLiked.Length).replace("{{topicDisLike}}", value.listOfUserDisLiked.Length);
             $("#postTable").append(row);
         });
@@ -221,7 +222,7 @@ function addTopicSuccess(data){
     window.location.href="dashboard";
 }
 function addTopicFailure(data){
-
+    console.log(data);
 }
 
 $(document).ready(function () {
@@ -245,9 +246,10 @@ $(document).ready(function () {
     });
     $("#createTopicButton").on('click',function(event){
          var oTopicDetails = {
+                    "id":1,
                     "subject":$("#subjectName").val(),
-                    "tags":"",
-                    "keyWords":"",
+                    "tags":null,
+                    "keyWords":null,
                     "desc":$("#description").val(),
                     "url":"",
                     "username":localStorage.getItem('userName'),
