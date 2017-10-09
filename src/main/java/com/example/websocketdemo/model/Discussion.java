@@ -19,7 +19,7 @@ public class Discussion {
     private int topicId;
     private String post;
     private String userName;
-    @ElementCollection
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Comment> commentList;
     @ElementCollection
     private List<String> listOfUserLiked;

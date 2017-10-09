@@ -1,7 +1,9 @@
 package com.example.websocketdemo.service;
 
+import com.example.websocketdemo.model.Comment;
 import com.example.websocketdemo.model.Discussion;
 import com.example.websocketdemo.model.Topic;
+import com.example.websocketdemo.repository.CommentRepo;
 import com.example.websocketdemo.repository.DiscussionRepo;
 import com.example.websocketdemo.repository.TopicRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ public class SqlService {
 
     @Autowired
     DiscussionRepo discussionRepo;
+
+    @Autowired
+    CommentRepo commentRepo;
 
     int count=1;
 
@@ -40,5 +45,12 @@ public class SqlService {
         Topic one = topicRepo.findOne(discussion.getTopicId());
         one.getDiscussions().add(discussion);
         discussionRepo.save(discussion);
+    }
+
+    public void addDiscussion(Comment comment){
+        comment.setCommentId(count++);
+        Discussion one = discussionRepo.findOne(comment.getDiscussionId());
+        one.getCommentList().add(comment);
+        commentRepo.save(comment);
     }
 }
