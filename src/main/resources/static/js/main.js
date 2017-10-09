@@ -236,6 +236,13 @@ function getUrlVars() {
     return vars;
 }
 
+function getTopicListSuccess(data){
+    console.log(data);
+}
+function getTopicListFailure(data){
+    console.log(data);
+}
+
 $(document).ready(function () {
     //usernameForm.addEventListener('submit', connect, true);
     if (0 !== $("#dashboardPage").length) {
@@ -246,7 +253,7 @@ $(document).ready(function () {
     } else if (0 !== $("#addTopicPage").length) {
         var topicId = getUrlVars()["topicId"];
         if (null == topicId && "" == topicId) {
-            oCommonObject.callService("topic/id", Number(topicId), getPostSuccess, getPostFailure, null, null);
+            oCommonObject.callService("topic/id", Number(topicId), getTopicListSuccess, getTopicListFailure, null, null);
            
         }else{
              window.location.href = "dashboard";
