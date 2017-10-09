@@ -198,7 +198,7 @@ function onMessageReceived(payload) {
         "</div>" +
         "<div class='panel-collapse collapse' id='collapseOne'>" +
         "<div class='panel-body'>" +
-        "<ul class='chat' id='messageArea'>" +
+        "<ul class='chat discussion"+message.id+"' id='messageArea'>" +
 
         "</ul>" +
         "</div>" +
@@ -301,11 +301,16 @@ function getUrlVars() {
 }
 
 function getTopicListSuccess(data) {
-    var discussionChunk = "<li class='timeline-inverted'>" +
+    $.each(data.discussions,function(key,value){
+        var discussionChunk = "<li class='timeline-inverted'>" +
         "<div class='timeline-badge warning'><i class='glyphicon glyphicon-credit-card'></i></div>" +
         "<div class='timeline-panel'>" +
+        "<div class='timeline-heading'>"+
+                        "<h4 class='timeline-title'>"+value.userName+"</h4>"+
+                        "<p><small class='text-muted'><i class='glyphicon glyphicon-time'/> 11/09/2014 </small></p>"+
+                    "</div>"+
         "<div class='timeline-body'>" +
-        "<p>Discussion description</p>" +
+        "<p>"+value.post+
         "</div>" +
         "<hr/>" +
         "<div class='timeline-footer'>" +
@@ -321,13 +326,12 @@ function getTopicListSuccess(data) {
         "</div>" +
         "<div class='panel-collapse collapse' id='collapseOne'>" +
         "<div class='panel-body'>" +
-        "<ul class='chat' id='messageArea'>" +
-
+        "<ul class='chat discussion"+value.id+"' id='messageArea'>" +
         "</ul>" +
         "</div>" +
         "<div class='panel-footer'>" +
         "<div class='input-group'>" +
-        "<input id='message' type='text' autocomplete='off' class='form-control input-sm' placeholder='Type your message here...' />" +
+        "<input id='message' type='text' autocomplete='off' class='form-control input-sm' placeholder='Type your comment here...' />" +
         "<span class='input-group-btn'>" +
         "<button type='submit' class='btn btn-warning btn-sm' id='btn-send-comment'>" +
         "Comment" +
@@ -340,6 +344,25 @@ function getTopicListSuccess(data) {
         "</div>" +
         "</div>" +
         "</li>";
+        $("#topicList").append(discussionChunk);
+        $.each(value.commentList,function(commentKey,commentValue){
+             var MessageBox = "<li class='right clearfix'>" +
+            "<span class='chat-img pull-right'>" +
+            "<img src='http://placehold.it/50/FA6F57/fff&text=RGB' alt='User Avatar' class='img-circle' />" +
+            "</span>" +
+            "<div class='chat-body clearfix'>" +
+            "<div class='header'>" +
+            "<small class=' text-muted'><span class='glyphicon glyphicon-time'></span>15 mins ago</small>" +
+            "<strong class='pull-right primary-font'>" + commentValue.userName + "</strong>" +
+            "</div>" +
+            "<p>" + commentValue.comment +
+            "</p>" +
+            "</div>" +
+            "</li>";
+        $("#discussion"+value.id+"").append(MessageBox);
+        });
+    });
+     
     connect();
     console.log(data);
 }
@@ -350,7 +373,6 @@ function getTopicListFailure(data) {
 $(document).ready(function () {
     //usernameForm.addEventListener('submit', connect, true);
     if (0 !== $("#dashboardPage").length) {
-        localS
         oCommonObject.callService("topics", localStorage.getItem('userName'), getPostSuccess, getPostFailure, null, null);
     } else if (0 !== $("#indexPage").length) {
         var topicId = getUrlVars()["topicId"];
