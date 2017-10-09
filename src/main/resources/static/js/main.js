@@ -350,7 +350,6 @@ function getTopicListFailure(data) {
 $(document).ready(function () {
     //usernameForm.addEventListener('submit', connect, true);
     if (0 !== $("#dashboardPage").length) {
-        localS
         oCommonObject.callService("topics", localStorage.getItem('userName'), getPostSuccess, getPostFailure, null, null);
     } else if (0 !== $("#indexPage").length) {
         var topicId = getUrlVars()["topicId"];
