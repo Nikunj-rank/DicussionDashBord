@@ -28,4 +28,5 @@ public class Topic {
     @ElementCollection
     private List<Discussion> discussions;
     private long dateTime;
+    MessageType messageType;
 }

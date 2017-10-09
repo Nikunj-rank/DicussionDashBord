@@ -25,4 +25,5 @@ public class Comment {
     @ElementCollection
     private List<String> listOfUserDisLiked;
     private long dateTime;
+    MessageType messageType;
 }

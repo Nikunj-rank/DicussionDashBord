@@ -23,4 +23,5 @@ public class Discussion {
     @ElementCollection
     private List<String> listOfUserDisLiked;
     private long dateTime;
+    MessageType messageType;
 }
