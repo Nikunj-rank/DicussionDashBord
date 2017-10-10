@@ -65,8 +65,7 @@ public class DiscussionController {
     @SendTo("/channel/public")
     public Topic addTopicLike(@Payload Topic topic,
                               SimpMessageHeaderAccessor headerAccessor) {
-        sqlService.addTopicLike(topic);
-        return topic;
+        return sqlService.addTopicLike(topic);
     }
 
 

@@ -23,12 +23,14 @@ public class Topic {
     private int topicId;
     private String subject;
     @ElementCollection
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<String> tags;
     @ElementCollection
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<String> keyWords;
     private String desc;
     private String url;
-    private String username;
+    private String userName;
     @ElementCollection
     @LazyCollection(LazyCollectionOption.FALSE)
     private Set<String> listOfUserLiked;

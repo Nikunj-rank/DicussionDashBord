@@ -247,9 +247,9 @@ function onMessageReceived(payload) {
 
     } else if (message.messageType == "TLIKE"){
         if(null!==message.listOfUserLiked)
-          $(".topicLikeCount").text(message.listOfUserLiked.Length);
+          $(".topicLikeCount").text(message.listOfUserLiked.length);
         if(null!==message.listOfUserDisLiked)
-          $(".topicDisLikeCount").text(message.listOfUserDisLiked.Length);
+          $(".topicDisLikeCount").text(message.listOfUserDisLiked.length);
     }
 
     //     messageElement.classList.add('chat-message');
@@ -336,11 +336,11 @@ function getTopicListSuccess(data) {
     $("#topicName").text(data.subject);
     $("#topicDesc").text(data.desc);
      if(null!==data.listOfUserLiked)
-        $(".topicLikeCount").text(message.listOfUserLiked.Length);
+        $(".topicLikeCount").text(data.listOfUserLiked.length);
     else
         $(".topicLikeCount").text("0");
     if(null!==data.listOfUserDisLiked)
-        $(".topicDisLikeCount").text(message.listOfUserDisLiked.Length);
+        $(".topicDisLikeCount").text(data.listOfUserDisLiked.length);
     else
         $(".topicDisLikeCount").text("0");
        
@@ -475,7 +475,7 @@ $(document).ready(function () {
     });
      $(".likeDisIcon").on("click",function(event) {
          if(($(this).attr("class").indexOf("disLikeActive")!==-1)){
-            $(this).removeClass("disLikeActives");
+            $(this).removeClass("disLikeActive");
         }else{
              $(this).addClass("disLikeActive");
              if($(".likeIcon").attr("class").indexOf("likeActive")!==-1){

@@ -1,9 +1,6 @@
 package com.example.websocketdemo.service;
 
-import com.example.websocketdemo.model.Comment;
-import com.example.websocketdemo.model.Discussion;
-import com.example.websocketdemo.model.DiscussionPk;
-import com.example.websocketdemo.model.Topic;
+import com.example.websocketdemo.model.*;
 import com.example.websocketdemo.repository.CommentRepo;
 import com.example.websocketdemo.repository.DiscussionRepo;
 import com.example.websocketdemo.repository.TopicRepo;
@@ -56,30 +53,26 @@ public class SqlService {
         topicRepo.save(one1);
     }
 
-    public void addTopicLike(Topic topic){
+    public Topic addTopicLike(Topic topic){
         Topic one1 = topicRepo.findOne(topic.getTopicId());
-        one1.getListOfUserLiked().add(topic.getUsername());
 
-
-        if(topic.getListOfUserLiked().isEmpty()){
-            if(one1.getListOfUserDisLiked().contains(topic.getUsername())){
-                one1.getListOfUserDisLiked().remove(topic.getUsername());
+        if(topic.getListOfUserLiked()==null){
+            if(one1.getListOfUserDisLiked().contains(topic.getUserName())){
+                one1.getListOfUserDisLiked().remove(topic.getUserName());
             }else {
-                one1.getListOfUserDisLiked().remove(topic.getUsername());
-                one1.getListOfUserDisLiked().add(topic.getUsername());
+                one1.getListOfUserLiked().remove(topic.getUserName());
+                one1.getListOfUserDisLiked().add(topic.getUserName());
             }
         }else {
-            if(one1.getListOfUserLiked().contains(topic.getUsername())){
-                one1.getListOfUserLiked().remove(topic.getUsername());
+            if(one1.getListOfUserLiked().contains(topic.getUserName())){
+                one1.getListOfUserLiked().remove(topic.getUserName());
             }else {
-                one1.getListOfUserDisLiked().remove(topic.getUsername());
-                one1.getListOfUserLiked().add(topic.getUsername());
+                one1.getListOfUserDisLiked().remove(topic.getUserName());
+                one1.getListOfUserLiked().add(topic.getUserName());
             }
         }
-
-
-
-
         topicRepo.save(one1);
+        one1.setMessageType(MessageType.TLIKE);
+        return one1;
     }
 }
