@@ -14,10 +14,10 @@ import java.util.List;
 @IdClass(CommentPk.class)
 public class Comment {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private int commentId;
     @Id
     private int discussionId;
+    private int topicId;
     private String comment;
     private String userName;
     @ElementCollection

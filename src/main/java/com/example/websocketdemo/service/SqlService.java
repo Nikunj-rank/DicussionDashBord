@@ -2,6 +2,7 @@ package com.example.websocketdemo.service;
 
 import com.example.websocketdemo.model.Comment;
 import com.example.websocketdemo.model.Discussion;
+import com.example.websocketdemo.model.DiscussionPk;
 import com.example.websocketdemo.model.Topic;
 import com.example.websocketdemo.repository.CommentRepo;
 import com.example.websocketdemo.repository.DiscussionRepo;
@@ -47,10 +48,18 @@ public class SqlService {
         discussionRepo.save(discussion);
     }
 
-    public void addDiscussion(Comment comment){
+    public void addComment(Comment comment){
         comment.setCommentId(count++);
-        Discussion one = discussionRepo.findOne(comment.getDiscussionId());
-        one.getCommentList().add(comment);
+        DiscussionPk discussionPk=new DiscussionPk();
+        discussionPk.setDiscussionId(comment.getDiscussionId());
+        discussionPk.setTopicId(comment.getTopicId());
+        Topic one1 = topicRepo.findOne(comment.getTopicId());
+        one1.getDiscussions().forEach(d->{
+            if(d.getDiscussionId()==comment.getDiscussionId()){
+                d.getCommentList().add(comment);
+            }
+        });
+        topicRepo.save(one1);
         commentRepo.save(comment);
     }
 }

@@ -56,6 +56,7 @@ public class DiscussionController {
     public Comment addComment(@Payload Comment comment,
                               SimpMessageHeaderAccessor headerAccessor) {
         headerAccessor.getSessionAttributes().put("username", comment.getUserName());
+        sqlService.addComment(comment);
         return comment;
     }
 

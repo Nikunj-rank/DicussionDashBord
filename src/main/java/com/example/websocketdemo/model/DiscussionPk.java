@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 @Getter
 @Setter
-class DiscussionPk implements Serializable {
+public class DiscussionPk implements Serializable {
 
     int topicId;
     int discussionId;

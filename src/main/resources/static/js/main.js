@@ -124,25 +124,24 @@ function sendMessage(event, messageType,discussionIdValue) {
             };
 
             stompClient.send("/app/chat.addDiscussion", {}, JSON.stringify(chatMessage));
-            messageInput.value = '';
         }
     } else if ("addComment" == messageType) {
-        var messageContent = messageInput.value.trim();
+        var messageContent = $("#message"+discussionIdValue+"").val();
 
         if (messageContent && stompClient) {
             var chatMessage = {
+                topicId:getUrlVars()["topicId"],
                 discussionId:discussionIdValue,
                 listOfUserLiked:null,
                 listOfUserDisLiked:null,
                 dateTime:null,
                 userName: username,
-                comment: messageInput.value,
+                comment: messageContent,
                 messageType:"COMMENT"
                 // type: 'CHAT'
             };
 
             stompClient.send("/app/chat.addComment", {}, JSON.stringify(chatMessage));
-            messageInput.value = '';
         }
     }
     event.preventDefault();
@@ -204,9 +203,9 @@ function onMessageReceived(payload) {
         "</div>" +
         "<div class='panel-footer'>" +
         "<div class='input-group'>" +
-        "<input id='message' type='text' autocomplete='off' class='form-control input-sm' placeholder='Type your comment here...' />" +
+        "<input id='message"+message.discussionId+"' type='text' autocomplete='off' class='form-control input-sm' placeholder='Type your comment here...' />" +
         "<span class='input-group-btn'>" +
-        "<button type='submit' data-discussionId='"+message.id+"' class='btn btn-warning btn-sm btn-send-comment' >" +
+        "<button type='submit' data-discussionId='"+message.discussionId+"' class='btn btn-warning btn-sm btn-send-comment' >" +
         "Comment" +
         "</button>" +
         "</span>" +
@@ -331,7 +330,7 @@ function getTopicListSuccess(data) {
         "</div>" +
         "<div class='panel-footer'>" +
         "<div class='input-group'>" +
-        "<input id='message' type='text' autocomplete='off' class='form-control input-sm' placeholder='Type your comment here...' />" +
+        "<input id='message"+value.discussionId+"' type='text' autocomplete='off' class='form-control input-sm' placeholder='Type your comment here...' />" +
         "<span class='input-group-btn'>" +
         "<button type='submit' data-discussionId='"+value.discussionId+"' class='btn btn-warning btn-sm btn-send-comment'>" +
         "Comment" +
@@ -386,7 +385,7 @@ $(document).ready(function () {
 
     }
 
-    $(".btn-send-comment").click(function (event) {
+    $(document).on('click','.btn-send-comment',function (event) {
         var discussionId = $(this).attr("data-discussionId");
         sendMessage(event, "addComment",discussionId);
     });
