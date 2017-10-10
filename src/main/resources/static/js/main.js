@@ -300,6 +300,9 @@ function getUrlVars() {
 }
 
 function getTopicListSuccess(data) {
+    $("#topicName").text(data.subject);
+    $("#topicDesc").text(data.desc);
+
     $.each(data.discussions,function(key,value){
         var discussionChunk = "<li class='timeline-inverted'>" +
         "<div class='timeline-badge warning'><i class='glyphicon glyphicon-credit-card'></i></div>" +
