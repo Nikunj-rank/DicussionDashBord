@@ -247,9 +247,9 @@ function onMessageReceived(payload) {
 
     } else if (message.messageType == "TLIKE"){
         if(null!==message.listOfUserLiked)
-          $(".topicLikeCount").text(message.listOfUserLiked.Length);
+          $(".topicLikeCount").text(message.listOfUserLiked.length);
         if(null!==message.listOfUserDisLiked)
-          $(".topicDisLikeCount").text(message.listOfUserDisLiked.Length);
+          $(".topicDisLikeCount").text(message.listOfUserDisLiked.length);
     }
 
     //     messageElement.classList.add('chat-message');
@@ -335,15 +335,24 @@ function getUrlVars() {
 function getTopicListSuccess(data) {
     $("#topicName").text(data.subject);
     $("#topicDesc").text(data.desc);
-     if(null!==data.listOfUserLiked)
-        $(".topicLikeCount").text(message.listOfUserLiked.Length);
-    else
+     if(null!==data.listOfUserLiked){
+        $(".topicLikeCount").text(data.listOfUserLiked.length);
+     }
+    else{
         $(".topicLikeCount").text("0");
-    if(null!==data.listOfUserDisLiked)
-        $(".topicDisLikeCount").text(message.listOfUserDisLiked.Length);
-    else
+    }
+    if(null!==data.listOfUserDisLiked){
+        $(".topicDisLikeCount").text(data.listOfUserDisLiked.length);
+    }
+    else{
         $(".topicDisLikeCount").text("0");
-       
+    }
+    if($.inArray(username, data.listOfUserLiked) !== -1){
+         $(".likeIcon").addClass("likeActive");
+    }
+    if($.inArray(username, data.listOfUserDisLiked) !== -1){
+         $(".likeDisIcon").addClass("disLikeActive");
+    }
     $.each(data.discussions,function(key,value){
         var discussionChunk = "<li class='timeline-inverted'>" +
         "<div class='timeline-badge warning'><i class='glyphicon glyphicon-credit-card'></i></div>" +
