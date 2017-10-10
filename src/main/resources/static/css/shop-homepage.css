@@ -67,7 +67,18 @@ footer {
     margin: 50px 0;
 }
 
-
+.likeTab{
+    margin-left:20px;
+}
+.topicLikeCount,.topicLikeCount{
+    margin:0 5px;
+}
+.likeActive{
+    color:blue;
+}
+.disLikeActive{
+    color:red;
+}
 /*Timeline CSS*/
 
 
