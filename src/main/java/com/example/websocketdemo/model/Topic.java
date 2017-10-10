@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -27,8 +28,8 @@ public class Topic {
     private List<String> listOfUserLiked;
     @ElementCollection
     private List<String> listOfUserDisLiked;
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "topicId")
-    private List<Discussion> discussions;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Map<Integer,Discussion> discussions;
     private long dateTime;
     MessageType messageType;
 }

@@ -1,23 +1,23 @@
 package com.example.websocketdemo.model;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.List;
 
 @Getter
 @Setter
 @Entity
+//@EqualsAndHashCode(of = {"discussionId","commentId"}, callSuper = false)
+//@IdClass(CommentPk.class)
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private int commentId;
     private int discussionId;
+    private int topicId;
     private String comment;
     private String userName;
     @ElementCollection

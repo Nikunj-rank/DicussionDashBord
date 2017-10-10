@@ -8,8 +8,8 @@ import java.io.Serializable;
 
 @Getter
 @Setter
-public class DiscussionPk implements Serializable {
+class CommentPk implements Serializable {
 
-    int topicId;
+    int commentId;
     int discussionId;
 }

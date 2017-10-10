@@ -6,21 +6,23 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
 @Entity
-@EqualsAndHashCode(of = {"topicId", "discussionId"}, callSuper = false)
-@IdClass(DiscussionPk.class)
+//@EqualsAndHashCode(of = {"topicId", "discussionId"}, callSuper = false)
+//@IdClass(DiscussionPk.class)
 public class Discussion {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int discussionId;
-    @Id
     private int topicId;
     private String post;
     private String userName;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @ElementCollection
-    private List<Comment> commentList;
+    private Map<Integer,Comment> commentList;
     @ElementCollection
     private List<String> listOfUserLiked;
     @ElementCollection
