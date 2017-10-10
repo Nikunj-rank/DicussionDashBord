@@ -143,6 +143,22 @@ function sendMessage(event, messageType,discussionIdValue) {
 
             stompClient.send("/app/chat.addComment", {}, JSON.stringify(chatMessage));
         }
+    } else if("addLike"==messageType){
+        var chatMessage = {
+                topicId:getUrlVars()["topicId"],
+                discussionId:"",
+                listOfUserLiked:[username],
+                listOfUserDisLiked:null,
+                dateTime:null,
+                userName: username,
+                comment: "",
+                messageType:"TLIKE"
+                // type: 'CHAT'
+            };
+            stompClient.send("/app/chat.topic.like", {}, JSON.stringify(chatMessage));
+
+    }else if ("addDisLike"=messageType){
+
     }
     event.preventDefault();
 }
@@ -217,6 +233,10 @@ function onMessageReceived(payload) {
         "</div>" +
         "</li>";
         $("#topicList").append(discussionChunk);
+
+    } else if (message.messageType == "TLIKE"){
+          $(".topicLikeCount").text(message.listOfUserLiked.Length);
+          $(".topicDisLikeCount").text(message.listOfUserDisLiked.Length);
     }
 
     //     messageElement.classList.add('chat-message');
@@ -419,6 +439,12 @@ $(document).ready(function () {
     $("#addNewDiscussion").on('click', function (event) {
         sendMessage(event, "addDiscussion","");
 
+    });
+    $(".likeIcon").on("click",function(event) {
+        sendMessage(event,"addLike","");
+    });
+     $(".likeDisIcon").on("click",function(event) {
+         sendMessage(event,"addDisLike","");
     });
 
     // messageForm.addEventListener('submit', sendMessage, true)
