@@ -191,14 +191,14 @@ function onMessageReceived(payload) {
         "<span class='label label-danger'>5</span>" +
         "<span class='glyphicon glyphicon-comment'></span> Comments" +
         "<div class='btn-group pull-right'>" +
-        "<a type='button' class='btn btn-default btn-xs' data-toggle='collapse' data-parent='#accordion' href='#collapseOne'>" +
+        "<a type='button' class='btn btn-default btn-xs' data-toggle='collapse' data-parent='#accordion' href='#collapseOne"+message.discussionId+"'>" +
         "<span class='glyphicon glyphicon-chevron-down'></span>" +
         "</a>" +
         "</div>" +
         "</div>" +
-        "<div class='panel-collapse collapse' id='collapseOne'>" +
+        "<div class='panel-collapse collapse' id='collapseOne"+message.discussionId+"'>" +
         "<div class='panel-body'>" +
-        "<ul class='chat discussion"+message.discussionId+"' id='messageArea'>" +
+        "<ul class='chat discussion"+message.discussionId+"'>" +
 
         "</ul>" +
         "</div>" +
@@ -206,7 +206,7 @@ function onMessageReceived(payload) {
         "<div class='input-group'>" +
         "<input id='message' type='text' autocomplete='off' class='form-control input-sm' placeholder='Type your comment here...' />" +
         "<span class='input-group-btn'>" +
-        "<button type='submit' data-discussionId='"+message.id+"' class='btn btn-warning btn-sm btn-send-comment' >" +
+        "<button type='submit' data-discussionId='"+message.discussionId+"' class='btn btn-warning btn-sm btn-send-comment' >" +
         "Comment" +
         "</button>" +
         "</span>" +
@@ -319,14 +319,14 @@ function getTopicListSuccess(data) {
         "<span class='label label-danger'>5</span>" +
         "<span class='glyphicon glyphicon-comment'></span> Comments" +
         "<div class='btn-group pull-right'>" +
-        "<a type='button' class='btn btn-default btn-xs' data-toggle='collapse' data-parent='#accordion' href='#collapseOne'>" +
+        "<a type='button' class='btn btn-default btn-xs' data-toggle='collapse' data-parent='#accordion' href='#collapseOne"+value.discussionId+"'>" +
         "<span class='glyphicon glyphicon-chevron-down'></span>" +
         "</a>" +
         "</div>" +
         "</div>" +
-        "<div class='panel-collapse collapse' id='collapseOne'>" +
+        "<div class='panel-collapse collapse' id='collapseOne"+value.discussionId+"'>" +
         "<div class='panel-body'>" +
-        "<ul class='chat discussion"+value.discussionId+"' id='messageArea'>" +
+        "<ul class='chat discussion"+value.discussionId+"'>" +
         "</ul>" +
         "</div>" +
         "<div class='panel-footer'>" +
