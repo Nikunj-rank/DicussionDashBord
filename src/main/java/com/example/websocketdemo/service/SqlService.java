@@ -42,24 +42,17 @@ public class SqlService {
     }
 
     public void addDiscussion(Discussion discussion){
+        discussionRepo.save(discussion);
         discussion.setDiscussionId(count++);
         Topic one = topicRepo.findOne(discussion.getTopicId());
-        one.getDiscussions().add(discussion);
-        discussionRepo.save(discussion);
+        one.getDiscussions().put(discussion.getDiscussionId(),discussion);
+        topicRepo.save(one);
     }
 
     public void addComment(Comment comment){
-        comment.setCommentId(count++);
-        DiscussionPk discussionPk=new DiscussionPk();
-        discussionPk.setDiscussionId(comment.getDiscussionId());
-        discussionPk.setTopicId(comment.getTopicId());
-        Topic one1 = topicRepo.findOne(comment.getTopicId());
-        one1.getDiscussions().forEach(d->{
-            if(d.getDiscussionId()==comment.getDiscussionId()){
-                d.getCommentList().add(comment);
-            }
-        });
-        topicRepo.save(one1);
         commentRepo.save(comment);
+        Topic one1 = topicRepo.findOne(comment.getTopicId());
+        one1.getDiscussions().get(comment.getDiscussionId()).getCommentList().put(comment.getCommentId(),comment);
+        topicRepo.save(one1);
     }
 }

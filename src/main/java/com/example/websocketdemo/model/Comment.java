@@ -10,12 +10,12 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@EqualsAndHashCode(of = {"discussionId","commentId"}, callSuper = false)
-@IdClass(CommentPk.class)
+//@EqualsAndHashCode(of = {"discussionId","commentId"}, callSuper = false)
+//@IdClass(CommentPk.class)
 public class Comment {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int commentId;
-    @Id
     private int discussionId;
     private int topicId;
     private String comment;
