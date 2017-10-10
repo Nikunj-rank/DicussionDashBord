@@ -3,6 +3,10 @@ package com.example.websocketdemo.model;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.List;
@@ -25,8 +29,10 @@ public class Topic {
     private String url;
     private String username;
     @ElementCollection
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<String> listOfUserLiked;
     @ElementCollection
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<String> listOfUserDisLiked;
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Map<Integer,Discussion> discussions;

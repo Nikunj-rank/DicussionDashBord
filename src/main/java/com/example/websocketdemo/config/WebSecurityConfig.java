@@ -42,26 +42,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll();
     }
 
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.inMemoryAuthentication()
-//                .withUser("mv").password("1").roles("USER");
-//        auth.inMemoryAuthentication()
-//                .withUser("kt").password("password").roles("USER");
-//        auth.inMemoryAuthentication()
-//                .withUser("dm").password("password").roles("USER");
-//    }
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.inMemoryAuthentication()
+                .withUser("mv").password("1").roles("USER");
+        auth.inMemoryAuthentication()
+                .withUser("kt").password("password").roles("USER");
+        auth.inMemoryAuthentication()
+                .withUser("dm").password("password").roles("USER");
+    }
 
 //     below code is working we will switch to that once we will provide support from front end
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication().dataSource(dataSource)
-                .usersByUsernameQuery(
-                        "select username,password, enabled from user_model where username=?")
-          .authoritiesByUsernameQuery(
-                "select username, role from user_roles where username=?");
-    }
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.jdbcAuthentication().dataSource(dataSource)
+//                .usersByUsernameQuery(
+//                        "select username,password, enabled from user_model where username=?")
+//          .authoritiesByUsernameQuery(
+//                "select username, role from user_roles where username=?");
+//    }
 
 
 }
