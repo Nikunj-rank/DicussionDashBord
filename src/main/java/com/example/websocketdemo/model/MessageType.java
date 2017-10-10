@@ -3,5 +3,8 @@ package com.example.websocketdemo.model;
 public enum MessageType {
         TOPIC,
         DISCUSSION,
-        COMMENT
+        COMMENT,
+        TLIKE,
+        DLIKE,
+        CLIKE
     }

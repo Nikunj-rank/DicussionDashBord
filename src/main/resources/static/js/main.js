@@ -157,7 +157,7 @@ function sendMessage(event, messageType,discussionIdValue) {
             };
             stompClient.send("/app/chat.topic.like", {}, JSON.stringify(chatMessage));
 
-    }else if ("addDisLike"=messageType){
+    }else if ("addDisLike"==messageType){
 
     }
     event.preventDefault();

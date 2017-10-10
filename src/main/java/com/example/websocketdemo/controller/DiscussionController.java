@@ -61,6 +61,15 @@ public class DiscussionController {
     }
 
 
+    @MessageMapping("/chat.topic.like")
+    @SendTo("/channel/public")
+    public Topic addTopicLike(@Payload Topic topic,
+                              SimpMessageHeaderAccessor headerAccessor) {
+        sqlService.addTopicLike(topic);
+        return topic;
+    }
+
+
     @PostMapping("/topics")
     public ResponseEntity<String> getAllTopic() {
         return new ResponseEntity<>(gson.toJson(sqlService.getAllTopic()), HttpStatus.ACCEPTED);
