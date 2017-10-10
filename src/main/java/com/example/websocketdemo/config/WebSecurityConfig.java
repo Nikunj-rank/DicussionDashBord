@@ -45,11 +45,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
-                .withUser("mv").password("1").roles("USER");
+                .withUser("user1").password("1").roles("USER");
         auth.inMemoryAuthentication()
-                .withUser("kt").password("password").roles("USER");
+                .withUser("user2").password("password").roles("USER");
         auth.inMemoryAuthentication()
-                .withUser("dm").password("password").roles("USER");
+                .withUser("user3").password("password").roles("USER");
     }
 
 //     below code is working we will switch to that once we will provide support from front end

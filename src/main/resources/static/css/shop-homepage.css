@@ -10,10 +10,10 @@ body {
 .hide{
     display:none;
 }
-.table-borderless td,
-.table-borderless th {
-    border: 0 !important;
-}
+/*.table-borderless td,*/
+/*.table-borderless th {*/
+    /*border: 0 !important;*/
+/*}*/
 .table-borderless td p{
     font-size:12px;
 }

@@ -291,20 +291,18 @@ function getAvatarColor(messageSender) {
 function getPostSuccess(data) {
     var topicData = JSON.parse(data);
     var tableRow = "<tr>" +
-        "<td><img src='http://placehold.it/140x100' alt=''></td>" +
         "<td>" +
         "<h4>" +
         "<a href='index?topicId={{tId}}'>{{topicName}}</a> " +
-        "<span class='time'><sup>9 hours ago</sup></span>" +
         "</h4>" +
-        "<p>{{topicDesc}}</p>" +
         "</td>" +
+        "<td>{{topicDesc}}</td>" +
         "<td>{{topicLike}}</td>" +
         "<td>{{topicDisLike}}</td>" +
         "</tr>";
     if (data) {
         $.each(topicData, function (key, value) {
-            var row = tableRow.replace("{{topicName}}", value.subject).replace("{{topicDesc}}", value.desc).replace("{{topicLike}}", value.listOfUserLiked.Length).replace("{{topicDisLike}}", value.listOfUserDisLiked.Length).replace("{{tId}}", value.topicId);
+            var row = tableRow.replace("{{topicName}}", value.subject).replace("{{topicDesc}}", value.desc).replace("{{topicLike}}", value.listOfUserLiked.length).replace("{{topicDisLike}}", value.listOfUserDisLiked.length).replace("{{tId}}", value.topicId);
             $("#postTable").append(row);
         });
     }
@@ -347,10 +345,10 @@ function getTopicListSuccess(data) {
     else{
         $(".topicDisLikeCount").text("0");
     }
-    if($.inArray(username, data.listOfUserLiked) !== -1){
+    if($.inArray(localStorage.getItem('userName'), data.listOfUserLiked) !== -1){
          $(".likeIcon").addClass("likeActive");
     }
-    if($.inArray(username, data.listOfUserDisLiked) !== -1){
+    if($.inArray(localStorage.getItem('userName'), data.listOfUserDisLiked) !== -1){
          $(".likeDisIcon").addClass("disLikeActive");
     }
     $.each(data.discussions,function(key,value){
