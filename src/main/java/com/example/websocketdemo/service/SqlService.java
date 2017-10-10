@@ -55,4 +55,10 @@ public class SqlService {
         one1.getDiscussions().get(comment.getDiscussionId()).getCommentList().put(comment.getCommentId(),comment);
         topicRepo.save(one1);
     }
+
+    public void addTopicLike(Topic topic){
+        Topic one1 = topicRepo.findOne(topic.getTopicId());
+        one1.getListOfUserLiked().add(topic.getUsername());
+        topicRepo.save(one1);
+    }
 }
