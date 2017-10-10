@@ -11,6 +11,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 import javax.persistence.*;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -30,10 +31,10 @@ public class Topic {
     private String username;
     @ElementCollection
     @LazyCollection(LazyCollectionOption.FALSE)
-    private List<String> listOfUserLiked;
+    private Set<String> listOfUserLiked;
     @ElementCollection
     @LazyCollection(LazyCollectionOption.FALSE)
-    private List<String> listOfUserDisLiked;
+    private Set<String> listOfUserDisLiked;
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Map<Integer,Discussion> discussions;
     private long dateTime;

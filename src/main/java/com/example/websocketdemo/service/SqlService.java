@@ -59,6 +59,27 @@ public class SqlService {
     public void addTopicLike(Topic topic){
         Topic one1 = topicRepo.findOne(topic.getTopicId());
         one1.getListOfUserLiked().add(topic.getUsername());
+
+
+        if(topic.getListOfUserLiked().isEmpty()){
+            if(one1.getListOfUserDisLiked().contains(topic.getUsername())){
+                one1.getListOfUserDisLiked().remove(topic.getUsername());
+            }else {
+                one1.getListOfUserDisLiked().remove(topic.getUsername());
+                one1.getListOfUserDisLiked().add(topic.getUsername());
+            }
+        }else {
+            if(one1.getListOfUserLiked().contains(topic.getUsername())){
+                one1.getListOfUserLiked().remove(topic.getUsername());
+            }else {
+                one1.getListOfUserDisLiked().remove(topic.getUsername());
+                one1.getListOfUserLiked().add(topic.getUsername());
+            }
+        }
+
+
+
+
         topicRepo.save(one1);
     }
 }
