@@ -235,7 +235,9 @@ function onMessageReceived(payload) {
         $("#topicList").append(discussionChunk);
 
     } else if (message.messageType == "TLIKE"){
+        if(null!==message.listOfUserLiked)
           $(".topicLikeCount").text(message.listOfUserLiked.Length);
+        if(null!==message.listOfUslistOfUserDisLikederLiked)
           $(".topicDisLikeCount").text(message.listOfUserDisLiked.Length);
     }
 
@@ -441,9 +443,26 @@ $(document).ready(function () {
 
     });
     $(".likeIcon").on("click",function(event) {
+
+        if(($(this).attr("class").indexOf("likeActive")!==-1)){
+            $(this).removeClass("likeActive");
+        }else{
+             $(this).addClass("likeActive");
+             if($(".likeDisIcon").attr("class").indexOf("disLikeActive")!==-1){
+                 $(".likeDisIcon").removeClass("disLikeActive");
+             }
+        }
         sendMessage(event,"addLike","");
     });
      $(".likeDisIcon").on("click",function(event) {
+         if(($(this).attr("class").indexOf("disLikeActive")!==-1)){
+            $(this).removeClass("disLikeActives");
+        }else{
+             $(this).addClass("disLikeActive");
+             if($(".likeIcon").attr("class").indexOf("likeActive")!==-1){
+                 $(".likeIcon").removeClass("likeActive");
+             }
+        }
          sendMessage(event,"addDisLike","");
     });
 
