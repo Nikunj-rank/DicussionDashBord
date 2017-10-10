@@ -158,7 +158,18 @@ function sendMessage(event, messageType,discussionIdValue) {
             stompClient.send("/app/chat.topic.like", {}, JSON.stringify(chatMessage));
 
     }else if ("addDisLike"==messageType){
-
+var chatMessage = {
+                topicId:getUrlVars()["topicId"],
+                discussionId:"",
+                listOfUserLiked:null,
+                listOfUserDisLiked:[username],
+                dateTime:null,
+                userName: username,
+                comment: "",
+                messageType:"TLIKE"
+                // type: 'CHAT'
+            };
+            stompClient.send("/app/chat.topic.like", {}, JSON.stringify(chatMessage));
     }
     event.preventDefault();
 }
@@ -236,9 +247,9 @@ function onMessageReceived(payload) {
 
     } else if (message.messageType == "TLIKE"){
         if(null!==message.listOfUserLiked)
-          $(".topicLikeCount").text(message.listOfUserLiked.length);
-        if(null!==message.listOfUserDisLiked    )
-          $(".topicDisLikeCount").text(message.listOfUserDisLiked.length);
+          $(".topicLikeCount").text(message.listOfUserLiked.Length);
+        if(null!==message.listOfUserDisLiked)
+          $(".topicDisLikeCount").text(message.listOfUserDisLiked.Length);
     }
 
     //     messageElement.classList.add('chat-message');
@@ -324,7 +335,15 @@ function getUrlVars() {
 function getTopicListSuccess(data) {
     $("#topicName").text(data.subject);
     $("#topicDesc").text(data.desc);
-
+     if(null!==data.listOfUserLiked)
+        $(".topicLikeCount").text(message.listOfUserLiked.Length);
+    else
+        $(".topicLikeCount").text("0");
+    if(null!==data.listOfUserDisLiked)
+        $(".topicDisLikeCount").text(message.listOfUserDisLiked.Length);
+    else
+        $(".topicDisLikeCount").text("0");
+       
     $.each(data.discussions,function(key,value){
         var discussionChunk = "<li class='timeline-inverted'>" +
         "<div class='timeline-badge warning'><i class='glyphicon glyphicon-credit-card'></i></div>" +
@@ -456,7 +475,7 @@ $(document).ready(function () {
     });
      $(".likeDisIcon").on("click",function(event) {
          if(($(this).attr("class").indexOf("disLikeActive")!==-1)){
-            $(this).removeClass("disLikeActive");
+            $(this).removeClass("disLikeActives");
         }else{
              $(this).addClass("disLikeActive");
              if($(".likeIcon").attr("class").indexOf("likeActive")!==-1){
