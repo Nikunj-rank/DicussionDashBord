@@ -57,22 +57,5 @@ alter table topic_key_words add constraint FK1cgekyp5y5us34akwk0yahhwj foreign k
 alter table topic_list_of_user_dis_liked add constraint FKbawpmhmyblugyraqq4cs3fa3h foreign key (topic_topic_id) references topic
 alter table topic_list_of_user_liked add constraint FKqakr3g2os6we9vc4aec64gjbo foreign key (topic_topic_id) references topic
 alter table topic_tags add constraint FK3pb18unxon8eit511o9cary47 foreign key (topic_topic_id) references topic
-DISCONNECT
-/*C20*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C19*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C18*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C17*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C16*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C15*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C14*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C13*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C12*/SET SCHEMA PUBLIC
-DISCONNECT
+INSERT INTO TOPIC VALUES(1,0,'test',NULL,'sa','','mv')
+COMMIT
