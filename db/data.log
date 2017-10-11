@@ -1,24 +1,5 @@
-/*C20*/SET SCHEMA PUBLIC
+/*C11*/SET SCHEMA PUBLIC
 alter table discussion_comment_list drop constraint UK_j44n9o6k4bxous2t4ojay1h73
 alter table discussion_comment_list add constraint UK_j44n9o6k4bxous2t4ojay1h73 unique (comment_list_comment_id)
 alter table topic_discussions drop constraint UK_mr1y2slvps2ewxehx1p9oo4ci
 alter table topic_discussions add constraint UK_mr1y2slvps2ewxehx1p9oo4ci unique (discussions_discussion_id)
-/*C21*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C20*/DISCONNECT
-/*C19*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C18*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C17*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C16*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C15*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C14*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C13*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C12*/SET SCHEMA PUBLIC
-DISCONNECT

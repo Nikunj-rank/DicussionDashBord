@@ -185,65 +185,55 @@ function onMessageReceived(payload) {
         //     messageElement.classList.add('event-message');
         //     message.content = message.sender + ' left!';
         // } else {
-        var MessageBox = "<li class='right clearfix'>" +
-            "<span class='chat-img pull-right'>" +
-            "<img src='http://placehold.it/50/FA6F57/fff&text=RGB' alt='User Avatar' class='img-circle' />" +
-            "</span>" +
-            "<div class='chat-body clearfix'>" +
-            "<div class='header'>" +
-            "<small class=' text-muted'><span class='glyphicon glyphicon-time'></span>15 mins ago</small>" +
-            "<strong class='pull-right primary-font'>" + message.userName + "</strong>" +
-            "</div>" +
-            "<p>" + message.comment +
-            "</p>" +
-            "</div>" +
-            "</li>";
+        var MessageBox = "<li class='comment'>"+
+                        "<a class='pull-left' href='#'>"+
+                            "<img class='avatar' src='http://bootdey.com/img/Content/user_1.jpg' alt='avatar'>"+
+                        "</a>"+
+                        "<div class='comment-body'>"+
+                            "<div class='comment-heading'>"+
+                                "<h4 class='user'>" + message.userName + "</h4>"+
+                                "<h5 class='time'>5 minutes ago</h5>"+
+                            "</div>"+
+                            "<p>" + message.comment +"</p>"+
+                        "</div>"+
+                    "</li>";
         $(".discussion"+message.discussionId+"").append(MessageBox);
     } else if (message.messageType == "DISCUSSION") {
-        var discussionChunk = "<li class='timeline-inverted'>" +
-        "<div class='timeline-badge warning'><i class='glyphicon glyphicon-credit-card'></i></div>" +
-        "<div class='timeline-panel'>" +
-        "<div class='timeline-heading'>"+
-                        "<h4 class='timeline-title'>"+message.userName+"</h4>"+
-                        "<p><small class='text-muted'><i class='glyphicon glyphicon-time'/> 11/09/2014 </small></p>"+
+        var discussionChunk = "<div class='panel panel-white post panel-shadow'>"+
+            "<div class='post-heading'>"+
+                "<div class='pull-left image'>"+
+                    "<img src='http://bootdey.com/img/Content/user_1.jpg' class='img-circle avatar' alt='user profile image'>"+
+                "</div>"+
+                "<div class='pull-left meta'>"+
+                    "<div class='title h5'>"+
+                        "<a href='#'><b>"+message.userName+"</b></a>"+
+                        "replied on the post."+
                     "</div>"+
-        "<div class='timeline-body'>" +
-        "<p>"+message.post+
-        "</div>" +
-        "<hr/>" +
-        "<div class='timeline-footer'>" +
-        "<div class='panel panel-primary'>" +
-        "<div class='panel-heading' id='accordion'>" +
-        "<span class='label label-danger'>5</span>" +
-        "<span class='glyphicon glyphicon-comment'></span> Comments" +
-        "<div class='btn-group pull-right'>" +
-        "<a type='button' class='btn btn-default btn-xs' data-toggle='collapse' data-parent='#accordion' href='#collapseOne"+message.discussionId+"'>" +
-        "<span class='glyphicon glyphicon-chevron-down'></span>" +
-        "</a>" +
-        "</div>" +
-        "</div>" +
-        "<div class='panel-collapse collapse' id='collapseOne"+message.discussionId+"'>" +
-        "<div class='panel-body'>" +
-        "<ul class='chat discussion"+message.discussionId+"'>" +
-
-        "</ul>" +
-        "</div>" +
-        "<div class='panel-footer'>" +
-        "<div class='input-group'>" +
-        "<input id='message"+message.discussionId+"' type='text' autocomplete='off' class='form-control input-sm' placeholder='Type your comment here...' />" +
-        "<span class='input-group-btn'>" +
-        "<button type='submit' data-discussionId='"+message.discussionId+"' class='btn btn-warning btn-sm btn-send-comment' >" +
-        "Comment" +
-        "</button>" +
-        "</span>" +
-        "</div>" +
-        "</div>" +
-        "</div>" +
-        "</div>" +
-        "</div>" +
-        "</div>" +
-        "</li>";
-        $("#topicList").append(discussionChunk);
+                    "<h6 class='text-muted time'>1 minute ago</h6>"+
+                "</div>"+
+            "</div> "+
+            "<div class='post-description'> "+
+                "<p>"+message.post+"</p>"+
+                "<div class='stats'>"+
+                    "<a href='#' class='btn btn-default stat-item'>"+
+                        "<i class='glyphicon glyphicon-thumbs-up'></i>2"+
+                    "</a>"+
+                    "<a href='#' class='btn btn-default stat-item'>"+
+                        "<i class='glyphicon glyphicon-thumbs-down'></i>2"+
+                    "</a>"+
+                "</div>"+
+            "</div>"+
+            "<div class='post-footer'>"+
+                "<div class='input-group'> "+
+                    "<input id='message"+message.discussionId+"' class='form-control' placeholder='Add a comment' type='text'>"+
+                    "<span class='input-group-addon'>"+
+                        "<a href='#' data-discussionId='"+message.discussionId+"' class='btn-send-comment'><i class='glyphicon glyphicon-edit'></i></a>"+                         
+                    "</span>"+
+                "</div>"+
+                "<ul class='chat discussion"+message.discussionId+" comments-list'>"+      
+                "</ul>"+
+            "</div>;"
+        $(".topicList").append(discussionChunk);
 
     } else if (message.messageType == "TLIKE"){
         if(null!==message.listOfUserLiked)
@@ -352,63 +342,54 @@ function getTopicListSuccess(data) {
          $(".likeDisIcon").addClass("disLikeActive");
     }
     $.each(data.discussions,function(key,value){
-        var discussionChunk = "<li class='timeline-inverted'>" +
-        "<div class='timeline-badge warning'><i class='glyphicon glyphicon-credit-card'></i></div>" +
-        "<div class='timeline-panel'>" +
-        "<div class='timeline-heading'>"+
-                        "<h4 class='timeline-title'>"+value.userName+"</h4>"+
-                        "<p><small class='text-muted'><i class='glyphicon glyphicon-time'/> 11/09/2014 </small></p>"+
+        var discussionChunk = "<div class='panel panel-white post panel-shadow'>"+
+            "<div class='post-heading'>"+
+                "<div class='pull-left image'>"+
+                    "<img src='http://bootdey.com/img/Content/user_1.jpg' class='img-circle avatar' alt='user profile image'>"+
+                "</div>"+
+                "<div class='pull-left meta'>"+
+                    "<div class='title h5'>"+
+                        "<a href='#'><b>"+value.userName+"</b></a>"+
+                        "replied on the post."+
                     "</div>"+
-        "<div class='timeline-body'>" +
-        "<p>"+value.post+
-        "</div>" +
-        "<hr/>" +
-        "<div class='timeline-footer'>" +
-        "<div class='panel panel-primary'>" +
-        "<div class='panel-heading' id='accordion'>" +
-        "<span class='label label-danger'>5</span>" +
-        "<span class='glyphicon glyphicon-comment'></span> Comments" +
-        "<div class='btn-group pull-right'>" +
-        "<a type='button' class='btn btn-default btn-xs' data-toggle='collapse' data-parent='#accordion' href='#collapseOne"+value.discussionId+"'>" +
-        "<span class='glyphicon glyphicon-chevron-down'></span>" +
-        "</a>" +
-        "</div>" +
-        "</div>" +
-        "<div class='panel-collapse collapse' id='collapseOne"+value.discussionId+"'>" +
-        "<div class='panel-body'>" +
-        "<ul class='chat discussion"+value.discussionId+"'>" +
-        "</ul>" +
-        "</div>" +
-        "<div class='panel-footer'>" +
-        "<div class='input-group'>" +
-        "<input id='message"+value.discussionId+"' type='text' autocomplete='off' class='form-control input-sm' placeholder='Type your comment here...' />" +
-        "<span class='input-group-btn'>" +
-        "<button type='submit' data-discussionId='"+value.discussionId+"' class='btn btn-warning btn-sm btn-send-comment'>" +
-        "Comment" +
-        "</button>" +
-        "</span>" +
-        "</div>" +
-        "</div>" +
-        "</div>" +
-        "</div>" +
-        "</div>" +
-        "</div>" +
-        "</li>";
-        $("#topicList").append(discussionChunk);
+                    "<h6 class='text-muted time'>1 minute ago</h6>"+
+                "</div>"+
+            "</div> "+
+            "<div class='post-description'> "+
+                "<p>"+value.post+"</p>"+
+                "<div class='stats'>"+
+                    "<a href='#' class='btn btn-default stat-item'>"+
+                        "<i class='glyphicon glyphicon-thumbs-up'></i>2"+
+                    "</a>"+
+                    "<a href='#' class='btn btn-default stat-item'>"+
+                        "<i class='glyphicon glyphicon-thumbs-down'></i>2"+
+                    "</a>"+
+                "</div>"+
+            "</div>"+
+            "<div class='post-footer'>"+
+                "<div class='input-group'> "+
+                    "<input id='message"+value.discussionId+"' class='form-control' placeholder='Add a comment' type='text'>"+
+                    "<span class='input-group-addon'>"+
+                        "<a href='#' data-discussionId='"+value.discussionId+"' class='btn-send-comment'><i class='glyphicon glyphicon-edit'></i></a>"+                         
+                    "</span>"+
+                "</div>"+
+                "<ul class='chat discussion"+value.discussionId+" comments-list'>"+      
+                "</ul>"+
+            "</div>;"
+        $(".topicList").append(discussionChunk);
         $.each(value.commentList,function(commentKey,commentValue){
-             var MessageBox = "<li class='right clearfix'>" +
-            "<span class='chat-img pull-right'>" +
-            "<img src='http://placehold.it/50/FA6F57/fff&text=RGB' alt='User Avatar' class='img-circle' />" +
-            "</span>" +
-            "<div class='chat-body clearfix'>" +
-            "<div class='header'>" +
-            "<small class=' text-muted'><span class='glyphicon glyphicon-time'></span>15 mins ago</small>" +
-            "<strong class='pull-right primary-font'>" + commentValue.userName + "</strong>" +
-            "</div>" +
-            "<p>" + commentValue.comment +
-            "</p>" +
-            "</div>" +
-            "</li>";
+             var MessageBox = "<li class='comment'>"+
+                        "<a class='pull-left' href='#'>"+
+                            "<img class='avatar' src='http://bootdey.com/img/Content/user_1.jpg' alt='avatar'>"+
+                        "</a>"+
+                        "<div class='comment-body'>"+
+                            "<div class='comment-heading'>"+
+                                "<h4 class='user'>" + commentValue.userName + "</h4>"+
+                                "<h5 class='time'>5 minutes ago</h5>"+
+                            "</div>"+
+                            "<p>" + commentValue.comment +"</p>"+
+                        "</div>"+
+                    "</li>";
         $(".discussion"+value.discussionId+"").append(MessageBox);
         });
     });

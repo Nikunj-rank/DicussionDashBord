@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
     <title>Discussion Board</title>
@@ -52,46 +53,47 @@
         </div>
         <!-- /.container -->
     </nav>
-    <div class="container">
-    <div id="chat-page">
-        <div class="panel-group" id="accordion">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse1" id="topicName"></a>
-                    </h4>
+    <div class="container topicList">
+        <div class="panel panel-white post panel-shadow">
+            <div class="post-heading">
+                <div class="pull-left image">
+                    <img src="http://bootdey.com/img/Content/user_1.jpg" class="img-circle avatar" alt="user profile image"></img>
                 </div>
-                <div id="collapse1" class="panel-collapse collapse in">
-                    <div class="panel-body" id="topicDesc"></div>
+                <div class="pull-left meta">
+                    <div class="title h5">
+                        <a href="#"><b id="topicName"></b></a> made a post.
+                    </div>
+                    <h6 class="text-muted time">1 minute ago</h6>
                 </div>
-                <div class="likeTab"><i class="glyphicon glyphicon-thumbs-up likeIcon"></i><span class="topicLikeCount"></span><i class="glyphicon glyphicon-thumbs-down likeDisIcon"></i><span class="topicDisLikeCount"></span></div>
+            </div>
+            <div class="post-description">
+                <p id="topicDesc"></p>
+                <div class="stats likeTab">
+                    <a href="#" class="btn btn-default stat-item likeIcon">
+                        <i class="glyphicon glyphicon-thumbs-up"></i><span class="topicLikeCount"></span>
+                    </a>
+                    <a href="#" class="btn btn-default stat-item likeDisIcon">
+                        <i class="glyphicon glyphicon-thumbs-down"></i><span class="topicDisLikeCount"></span>
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="post-footer">
+            <div class="input-group">
+                <input class="form-control" id="discussionDesc" placeholder="Say something..." type="text" ></input>
+                <span class="input-group-addon">
+                        <a id="addNewDiscussion" href="#">Reply</a>  
+                    </span>
             </div>
         </div>
-        <ul class="timeline" id="topicList">
-            <li>
-                <div class="timeline-badge danger"><i class="glyphicon glyphicon-credit-card"></i></div>
-                <div class="timeline-panel">
-                    <form role="form">
-                        <div class="timeline-body">
-                            <div class="form-group">
-                                <label for="Text">Discussion</label>
-                                <textarea id="discussionDesc" class="form-control" placeholder="text" rows="3"></textarea>
-                            </div>
-                        </div>
-                        <br />
-                        <br />
-                        <a id="addNewDiscussion" class="btn btn-success btn-lg btn-block">Add discussion</a>
-                    </form>
-                </div>
-            </li>
-        </ul>
     </div>
-    </div>
-    <script src="/js/jquery.js"></script>     
+    <script src="/js/jquery.js"></script>
     <script src="/js/sockjs.min.js"></script>
     <script src="/js/stomp.min.js"></script>
     <script src="/js/main.js"></script>
-    
+
     <!-- Bootstrap Core JavaScript -->
     <script src="/js/bootstrap.min.js"></script>
 
