@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.CompletionException;
 
@@ -46,6 +47,7 @@ public class DiscussionController {
     @SendTo("/channel/public")
     public Discussion addDiscussion(@Payload Discussion discussion,
                                     SimpMessageHeaderAccessor headerAccessor) {
+        discussion.setDateTime(Instant.now().toEpochMilli());
         headerAccessor.getSessionAttributes().put("type", "discussion");
         sqlService.addDiscussion(discussion);
         return discussion;
@@ -55,6 +57,7 @@ public class DiscussionController {
     @SendTo("/channel/public")
     public Comment addComment(@Payload Comment comment,
                               SimpMessageHeaderAccessor headerAccessor) {
+        comment.setDateTime(Instant.now().toEpochMilli());
         headerAccessor.getSessionAttributes().put("username", comment.getUserName());
         sqlService.addComment(comment);
         return comment;
@@ -76,6 +79,7 @@ public class DiscussionController {
 
     @PostMapping(value = "/topic", headers = "Accept=application/json")
     public ResponseEntity<Boolean> addTopic(@RequestBody Topic topic) {
+        topic.setDateTime(Instant.now().toEpochMilli());
         sqlService.addTopic(topic);
         return new ResponseEntity<>( HttpStatus.ACCEPTED);
     }
