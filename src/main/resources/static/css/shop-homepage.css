@@ -18,10 +18,6 @@ body {
     font-size:12px;
 }
 
-.time{
-    padding-left:20px;
-}
-
 .slide-image {
     width: 100%;
 }
@@ -351,7 +347,7 @@ footer {
 
 .post .post-heading {
   height: 95px;
-  padding: 20px 15px;
+  padding: 20px 15px 0 15px;
 }
 .post .post-heading .avatar {
   width: 60px;
@@ -377,10 +373,11 @@ footer {
   height: auto;
 }
 .post .post-description {
-  padding: 15px;
+  padding: 0 15px 15px 15px;
 }
 .post .post-description p {
   font-size: 14px;
+  padding-left:75px;
 }
 .post .post-description .stats {
   margin-top: 20px;

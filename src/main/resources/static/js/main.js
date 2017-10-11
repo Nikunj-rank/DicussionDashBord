@@ -124,7 +124,7 @@ function sendMessage(event, messageType,discussionIdValue) {
             };
 
             stompClient.send("/app/chat.addDiscussion", {}, JSON.stringify(chatMessage));
-            $("discussionDesc").val("");
+            $("#discussionDesc").val("");
         }
     } else if ("addComment" == messageType) {
         var messageContent = $("#message"+discussionIdValue+"").val();
@@ -322,8 +322,9 @@ function getUrlVars() {
 }
 
 function getTopicListSuccess(data) {
-    $("#topicName").text(data.subject);
+    $("#topicUserName").text(data.userName);
     $("#topicDesc").text(data.desc);
+     $("#topicTitle").text(data.subject);
      if(null!==data.listOfUserLiked){
         $(".topicLikeCount").text(data.listOfUserLiked.length);
      }
@@ -436,7 +437,7 @@ $(document).ready(function () {
             "keyWords": null,
             "desc": $("#description").val(),
             "url": "",
-            "username": localStorage.getItem('userName'),
+            "userName": localStorage.getItem('userName'),
             "listOfUserLiked": null,
             "listOfUserDisLiked": null,
             "discussions": null,

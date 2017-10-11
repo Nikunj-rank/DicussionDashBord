@@ -4,21 +4,12 @@ alter table discussion_comment_list add constraint UK_j44n9o6k4bxous2t4ojay1h73 
 alter table topic_discussions drop constraint UK_mr1y2slvps2ewxehx1p9oo4ci
 alter table topic_discussions add constraint UK_mr1y2slvps2ewxehx1p9oo4ci unique (discussions_discussion_id)
 /*C13*/SET SCHEMA PUBLIC
-INSERT INTO COMMENT VALUES(5,'hi',0,1,2,1,'user1')
+INSERT INTO COMMENT VALUES(23,'hi',0,1,2,1,'user1')
 COMMIT
-INSERT INTO COMMENT VALUES(6,'hello',0,1,2,1,'user1')
+INSERT INTO TOPIC VALUES(2,0,'fssgdfdsfdsf',NULL,'topic 2','','user1')
 COMMIT
-INSERT INTO COMMENT VALUES(12,'hellofdsfsdfdsfdsfffhhhhhhhhhhhhhhhhhhhhhhjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj',0,1,2,1,'user1')
+INSERT INTO TOPIC_LIST_OF_USER_LIKED VALUES(2,'user1')
 COMMIT
-INSERT INTO COMMENT VALUES(13,'hellofdsfsdfdsfdsfffhhhhhhhhhhhhhhhhhhhhhhjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj',0,1,2,1,'user1')
-COMMIT
-INSERT INTO COMMENT VALUES(14,'hellofdsfsdfdsfdsfffhhhhhhhhhhhhhhhhhhhhhhjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj',0,1,2,1,'user1')
-COMMIT
-INSERT INTO COMMENT VALUES(15,'hellofdsfsdfdsfdsfffhhhhhhhhhhhhhhhhhhhhhhjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj',0,1,2,1,'user1')
-COMMIT
-INSERT INTO COMMENT VALUES(20,'hellofdsfsdfdsfdsfffhhhhhhhhhhhhhhhhhhhhhhjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj',0,1,2,1,'user1')
-COMMIT
-INSERT INTO COMMENT VALUES(21,'hellofdsfsdfdsfdsfffhhhhhhhhhhhhhhhhhhhhhhjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj',0,1,2,1,'user1')
-COMMIT
-INSERT INTO DISCUSSION VALUES(3,0,1,'hello',1,'user1')
+INSERT INTO TOPIC_LIST_OF_USER_DIS_LIKED VALUES(2,'user1')
+DELETE FROM TOPIC_LIST_OF_USER_LIKED WHERE TOPIC_TOPIC_ID=2 AND LIST_OF_USER_LIKED='user1'
 COMMIT
