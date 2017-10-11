@@ -105,20 +105,20 @@ function onError(error) {
 }
 
 
-function sendMessage(event, messageType,discussionIdValue) {
+function sendMessage(event, messageType, discussionIdValue) {
     if ("addDiscussion" == messageType) {
         var messageContent = $("#discussionDesc").val();
 
         if (messageContent && stompClient) {
             var chatMessage = {
-                topicId:getUrlVars()["topicId"],
+                topicId: getUrlVars()["topicId"],
                 post: messageContent,
                 userName: username,
-                commentList:null,
-                listOfUserLiked:null,
-                listOfUserDisLiked:null,
-                dateTime:null,
-                messageType:"DISCUSSION"
+                commentList: null,
+                listOfUserLiked: null,
+                listOfUserDisLiked: null,
+                dateTime: null,
+                messageType: "DISCUSSION"
 
                 // type: 'CHAT'
             };
@@ -127,51 +127,51 @@ function sendMessage(event, messageType,discussionIdValue) {
             $("#discussionDesc").val("");
         }
     } else if ("addComment" == messageType) {
-        var messageContent = $("#message"+discussionIdValue+"").val();
-        $("#message"+discussionIdValue+"").val("");
+        var messageContent = $("#message" + discussionIdValue + "").val();
+        $("#message" + discussionIdValue + "").val("");
 
         if (messageContent && stompClient) {
             var chatMessage = {
-                topicId:getUrlVars()["topicId"],
-                discussionId:discussionIdValue,
-                listOfUserLiked:null,
-                listOfUserDisLiked:null,
-                dateTime:null,
+                topicId: getUrlVars()["topicId"],
+                discussionId: discussionIdValue,
+                listOfUserLiked: null,
+                listOfUserDisLiked: null,
+                dateTime: null,
                 userName: username,
                 comment: messageContent,
-                messageType:"COMMENT"
+                messageType: "COMMENT"
                 // type: 'CHAT'
             };
 
             stompClient.send("/app/chat.addComment", {}, JSON.stringify(chatMessage));
         }
-    } else if("addLike"==messageType){
+    } else if ("addLike" == messageType) {
         var chatMessage = {
-                topicId:getUrlVars()["topicId"],
-                discussionId:"",
-                listOfUserLiked:[username],
-                listOfUserDisLiked:null,
-                dateTime:null,
-                userName: username,
-                comment: "",
-                messageType:"TLIKE"
-                // type: 'CHAT'
-            };
-            stompClient.send("/app/chat.topic.like", {}, JSON.stringify(chatMessage));
+            topicId: getUrlVars()["topicId"],
+            discussionId: "",
+            listOfUserLiked: [username],
+            listOfUserDisLiked: null,
+            dateTime: null,
+            userName: username,
+            comment: "",
+            messageType: "TLIKE"
+            // type: 'CHAT'
+        };
+        stompClient.send("/app/chat.topic.like", {}, JSON.stringify(chatMessage));
 
-    }else if ("addDisLike"==messageType){
-var chatMessage = {
-                topicId:getUrlVars()["topicId"],
-                discussionId:"",
-                listOfUserLiked:null,
-                listOfUserDisLiked:[username],
-                dateTime:null,
-                userName: username,
-                comment: "",
-                messageType:"TLIKE"
-                // type: 'CHAT'
-            };
-            stompClient.send("/app/chat.topic.like", {}, JSON.stringify(chatMessage));
+    } else if ("addDisLike" == messageType) {
+        var chatMessage = {
+            topicId: getUrlVars()["topicId"],
+            discussionId: "",
+            listOfUserLiked: null,
+            listOfUserDisLiked: [username],
+            dateTime: null,
+            userName: username,
+            comment: "",
+            messageType: "TLIKE"
+            // type: 'CHAT'
+        };
+        stompClient.send("/app/chat.topic.like", {}, JSON.stringify(chatMessage));
     }
     event.preventDefault();
 }
@@ -187,60 +187,60 @@ function onMessageReceived(payload) {
         //     messageElement.classList.add('event-message');
         //     message.content = message.sender + ' left!';
         // } else {
-        var MessageBox = "<li class='comment'>"+
-                        "<a class='pull-left' href='#'>"+
-                            "<img class='avatar' src='http://bootdey.com/img/Content/user_1.jpg' alt='avatar'>"+
-                        "</a>"+
-                        "<div class='comment-body'>"+
-                            "<div class='comment-heading'>"+
-                                "<h4 class='user'>" + message.userName + "</h4>"+
-                                "<h5 class='time'>"+timeSince(new Date(message.dateTime))+" ago</h5>"+
-                            "</div>"+
-                            "<p>" + message.comment +"</p>"+
-                        "</div>"+
-                    "</li>";
-        $(".discussion"+message.discussionId+"").append(MessageBox);
+        var MessageBox = "<li class='comment'>" +
+            "<a class='pull-left' href='#'>" +
+            "<img class='avatar' src='http://bootdey.com/img/Content/user_1.jpg' alt='avatar'>" +
+            "</a>" +
+            "<div class='comment-body'>" +
+            "<div class='comment-heading'>" +
+            "<h4 class='user'>" + message.userName + "</h4>" +
+            "<h5 class='time'>" + timeSince(new Date(message.dateTime)) + " ago</h5>" +
+            "</div>" +
+            "<p>" + message.comment + "</p>" +
+            "</div>" +
+            "</li>";
+        $(".discussion" + message.discussionId + "").append(MessageBox);
     } else if (message.messageType == "DISCUSSION") {
-        var discussionChunk = "<div class='panel panel-white post panel-shadow'>"+
-            "<div class='post-heading'>"+
-                "<div class='pull-left image'>"+
-                    "<img src='http://bootdey.com/img/Content/user_1.jpg' class='img-circle avatar' alt='user profile image'>"+
-                "</div>"+
-                "<div class='pull-left meta'>"+
-                    "<div class='title h5'>"+
-                        "<a href='#'><b>"+message.userName+"</b></a> replied on the post."+
-                    "</div>"+
-                    "<h6 class='text-muted time'>"+timeSince(new Date(message.dateTime))+" ago</h6>"+
-                "</div>"+
-            "</div> "+
-            "<div class='post-description'> "+
-                "<p>"+message.post+"</p>"+
-                "<div class='stats'>"+
-                    "<a href='#' class='btn btn-default stat-item'>"+
-                        "<i class='glyphicon glyphicon-thumbs-up'></i>2"+
-                    "</a>"+
-                    "<a href='#' class='btn btn-default stat-item'>"+
-                        "<i class='glyphicon glyphicon-thumbs-down'></i>2"+
-                    "</a>"+
-                "</div>"+
-            "</div>"+
-            "<div class='post-footer'>"+
-                "<ul class='chat discussion"+message.discussionId+" comments-list'>"+      
-                "</ul>"+
-                "<div class='input-group'> "+
-                    "<input id='message"+message.discussionId+"' class='form-control' placeholder='Add a comment' type='text'>"+
-                    "<span class='input-group-addon'>"+
-                        "<a href='#' data-discussionId='"+message.discussionId+"' class='btn-send-comment'><i class='glyphicon glyphicon-edit'></i></a>"+                         
-                    "</span>"+
-                "</div>"+
+        var discussionChunk = "<div class='panel panel-white post panel-shadow'>" +
+            "<div class='post-heading'>" +
+            "<div class='pull-left image'>" +
+            "<img src='http://bootdey.com/img/Content/user_1.jpg' class='img-circle avatar' alt='user profile image'>" +
+            "</div>" +
+            "<div class='pull-left meta'>" +
+            "<div class='title h5'>" +
+            "<a href='#'><b>" + message.userName + "</b></a> replied on the post." +
+            "</div>" +
+            "<h6 class='text-muted time'>" + timeSince(new Date(message.dateTime)) + " ago</h6>" +
+            "</div>" +
+            "</div> " +
+            "<div class='post-description'> " +
+            "<p>" + message.post + "</p>" +
+            "<div class='stats'>" +
+            "<a href='#' class='btn btn-default stat-item'>" +
+            "<i class='glyphicon glyphicon-thumbs-up'></i>2" +
+            "</a>" +
+            "<a href='#' class='btn btn-default stat-item'>" +
+            "<i class='glyphicon glyphicon-thumbs-down'></i>2" +
+            "</a>" +
+            "</div>" +
+            "</div>" +
+            "<div class='post-footer'>" +
+            "<ul class='chat discussion" + message.discussionId + " comments-list'>" +
+            "</ul>" +
+            "<div class='input-group'> " +
+            "<input id='message" + message.discussionId + "' class='form-control' placeholder='Add a comment' type='text'>" +
+            "<span class='input-group-addon'>" +
+            "<a href='#' data-discussionId='" + message.discussionId + "' class='btn-send-comment'><i class='glyphicon glyphicon-edit'></i></a>" +
+            "</span>" +
+            "</div>" +
             "</div>";
         $(".topicList").append(discussionChunk);
 
-    } else if (message.messageType == "TLIKE"){
-        if(null!==message.listOfUserLiked)
-          $(".topicLikeCount").text(message.listOfUserLiked.length);
-        if(null!==message.listOfUserDisLiked)
-          $(".topicDisLikeCount").text(message.listOfUserDisLiked.length);
+    } else if (message.messageType == "TLIKE") {
+        if (null !== message.listOfUserLiked)
+            $(".topicLikeCount").text(message.listOfUserLiked.length);
+        if (null !== message.listOfUserDisLiked)
+            $(".topicDisLikeCount").text(message.listOfUserDisLiked.length);
     }
 
     //     messageElement.classList.add('chat-message');
@@ -281,33 +281,40 @@ function getAvatarColor(messageSender) {
 
 function getPostSuccess(data) {
     var topicData = JSON.parse(data);
-     var tableRow = "<div class='panel panel-white post panel-shadow'>"+
-            "<div class='post-heading'>"+
-                "<div class='pull-left image'>"+
-                    "<img src='http://bootdey.com/img/Content/user_1.jpg' class='img-circle avatar' alt='user profile image'></img>"+
-                "</div>"+
-                "<div class='pull-left meta'>"+
-                    "<div class='title h5'>"+
-                        "<b>{{topicUserName}}</b> made a post."+
-                    "</div>"+
-                    "<a href='index?topicId={{tId}}'><h4>{{topicName}}</h4></a>"+
-                "</div>"+
-            "</div>"+
-            "<div class='post-description'>"+
-                "<p>{{topicDesc}}</p>"+
-                "<div class='stats likeTab'>"+
-                    "<a href='#' data-topicId='{{tId}}' class='btn btn-default stat-item'>"+
-                        "<i class='glyphicon glyphicon-thumbs-up'></i><span>{{topicLike}}</span>"+
-                    "</a>"+
-                    "<a href='#' data-topicId='{{tId}}' class='btn btn-default stat-item'>"+
-                        "<i class='glyphicon glyphicon-thumbs-down'></i><span>{{topicDisLike}}</span>"+
-                    "</a>"+
-                "</div>"+
-            "</div>"+
+    var tableRow = "<div class='panel panel-white post panel-shadow {{background}}'>" +
+        "<div class='post-heading'>" +
+        "<div class='pull-left image'>" +
+        "<img src='http://bootdey.com/img/Content/user_1.jpg' class='img-circle avatar' alt='user profile image'></img>" +
+        "</div>" +
+        "<div class='pull-left meta'>" +
+        "<div class='title h5'>" +
+        "<b>{{topicUserName}}</b> made a post." +
+        "</div>" +
+        "<a href='index?topicId={{tId}}'><h4>{{topicName}}</h4></a>" +
+        "</div>" +
+        "</div>" +
+        "<div class='post-description'>" +
+        "<p>{{topicDesc}}</p>" +
+        "<div class='stats likeTab'>" +
+        "<a href='#' data-topicId='{{tId}}' class='btn btn-default stat-item'>" +
+        "<i class='glyphicon glyphicon-thumbs-up'></i><span>{{topicLike}}</span>" +
+        "</a>" +
+        "<a href='#' data-topicId='{{tId}}' class='btn btn-default stat-item'>" +
+        "<i class='glyphicon glyphicon-thumbs-down'></i><span>{{topicDisLike}}</span>" +
+        "</a>" +
+        "</div>" +
+        "</div>" +
         "</div>";
     if (data) {
+        var backgroundCounter=1;
         $.each(topicData, function (key, value) {
-            var row = tableRow.replace("{{topicName}}", value.subject).replace("{{topicDesc}}", value.desc).replace("{{topicLike}}", value.listOfUserLiked.length).replace("{{topicDisLike}}", value.listOfUserDisLiked.length).replace(/{{tId}}/g, value.topicId).replace("{{topicUserName}}",value.userName);
+            var row = tableRow.replace("{{topicName}}", value.subject).replace("{{topicDesc}}", value.desc).replace("{{topicLike}}", value.listOfUserLiked.length).replace("{{topicDisLike}}", value.listOfUserDisLiked.length).replace(/{{tId}}/g, value.topicId).replace("{{topicUserName}}", value.userName);
+            if (backgroundCounter % 2 == 0) {
+                row = row.replace("{{background}}", "");
+            } else {
+                row = row.replace("{{background}}", "bluebackground");
+            }
+            backgroundCounter++;
             $("#postTable").append(row);
         });
     }
@@ -338,77 +345,77 @@ function getUrlVars() {
 function getTopicListSuccess(data) {
     $("#topicUserName").text(data.userName);
     $("#topicDesc").text(data.desc);
-     $("#topicTitle").text(data.subject);
-     if(null!==data.listOfUserLiked){
+    $("#topicTitle").text(data.subject);
+    if (null !== data.listOfUserLiked) {
         $(".topicLikeCount").text(data.listOfUserLiked.length);
-     }
-    else{
+    }
+    else {
         $(".topicLikeCount").text("0");
     }
-    if(null!==data.listOfUserDisLiked){
+    if (null !== data.listOfUserDisLiked) {
         $(".topicDisLikeCount").text(data.listOfUserDisLiked.length);
     }
-    else{
+    else {
         $(".topicDisLikeCount").text("0");
     }
-    if($.inArray(localStorage.getItem('userName'), data.listOfUserLiked) !== -1){
-         $(".likeIcon").addClass("likeActive");
+    if ($.inArray(localStorage.getItem('userName'), data.listOfUserLiked) !== -1) {
+        $(".likeIcon").addClass("likeActive");
     }
-    if($.inArray(localStorage.getItem('userName'), data.listOfUserDisLiked) !== -1){
-         $(".likeDisIcon").addClass("disLikeActive");
+    if ($.inArray(localStorage.getItem('userName'), data.listOfUserDisLiked) !== -1) {
+        $(".likeDisIcon").addClass("disLikeActive");
     }
-    $.each(data.discussions,function(key,value){
-        var discussionChunk = "<div class='panel panel-white post panel-shadow'>"+
-            "<div class='post-heading'>"+
-                "<div class='pull-left image'>"+
-                    "<img src='http://bootdey.com/img/Content/user_1.jpg' class='img-circle avatar' alt='user profile image'>"+
-                "</div>"+
-                "<div class='pull-left meta'>"+
-                    "<div class='title h5'>"+
-                        "<b>"+value.userName+"</b> replied on the post."+
-                    "</div>"+
-                    "<h6 class='text-muted time'>"+timeSince(new Date(value.dateTime))+" ago</h6>"+
-                "</div>"+
-            "</div> "+
-            "<div class='post-description'> "+
-                "<p>"+value.post+"</p>"+
-                "<div class='stats'>"+
-                    "<a href='#' class='btn btn-default stat-item'>"+
-                        "<i class='glyphicon glyphicon-thumbs-up'></i>2"+
-                    "</a>"+
-                    "<a href='#' class='btn btn-default stat-item'>"+
-                        "<i class='glyphicon glyphicon-thumbs-down'></i>2"+
-                    "</a>"+
-                "</div>"+
-            "</div>"+
-            "<div class='post-footer'>"+
-                "<ul class='chat discussion"+value.discussionId+" comments-list'>"+   
-                "</ul>"+
-                 "<div class='input-group'> "+
-                    "<input id='message"+value.discussionId+"' class='form-control' placeholder='Add a comment' type='text'>"+
-                    "<span class='input-group-addon'>"+
-                        "<a href='#' data-discussionId='"+value.discussionId+"' class='btn-send-comment'><i class='glyphicon glyphicon-edit'></i></a>"+                         
-                    "</span>"+
-                "</div>"+  
+    $.each(data.discussions, function (key, value) {
+        var discussionChunk = "<div class='panel panel-white post panel-shadow'>" +
+            "<div class='post-heading'>" +
+            "<div class='pull-left image'>" +
+            "<img src='http://bootdey.com/img/Content/user_1.jpg' class='img-circle avatar' alt='user profile image'>" +
+            "</div>" +
+            "<div class='pull-left meta'>" +
+            "<div class='title h5'>" +
+            "<b>" + value.userName + "</b> replied on the post." +
+            "</div>" +
+            "<h6 class='text-muted time'>" + timeSince(new Date(value.dateTime)) + " ago</h6>" +
+            "</div>" +
+            "</div> " +
+            "<div class='post-description'> " +
+            "<p>" + value.post + "</p>" +
+            "<div class='stats'>" +
+            "<a href='#' class='btn btn-default stat-item'>" +
+            "<i class='glyphicon glyphicon-thumbs-up'></i>2" +
+            "</a>" +
+            "<a href='#' class='btn btn-default stat-item'>" +
+            "<i class='glyphicon glyphicon-thumbs-down'></i>2" +
+            "</a>" +
+            "</div>" +
+            "</div>" +
+            "<div class='post-footer'>" +
+            "<ul class='chat discussion" + value.discussionId + " comments-list'>" +
+            "</ul>" +
+            "<div class='input-group'> " +
+            "<input id='message" + value.discussionId + "' class='form-control' placeholder='Add a comment' type='text'>" +
+            "<span class='input-group-addon'>" +
+            "<a href='#' data-discussionId='" + value.discussionId + "' class='btn-send-comment'><i class='glyphicon glyphicon-edit'></i></a>" +
+            "</span>" +
+            "</div>" +
             "</div>";
         $(".topicList").append(discussionChunk);
-        $.each(value.commentList,function(commentKey,commentValue){
-             var MessageBox = "<li class='comment'>"+
-                        "<a class='pull-left' href='#'>"+
-                            "<img class='avatar' src='http://bootdey.com/img/Content/user_1.jpg' alt='avatar'>"+
-                        "</a>"+
-                        "<div class='comment-body'>"+
-                            "<div class='comment-heading'>"+
-                                "<h4 class='user'>" + commentValue.userName + "</h4>"+
-                                "<h5 class='time'>"+timeSince(new Date(commentValue.dateTime))+" ago</h5>"+
-                            "</div>"+
-                            "<p>" + commentValue.comment +"</p>"+
-                        "</div>"+
-                    "</li>";
-        $(".discussion"+value.discussionId+"").append(MessageBox);
+        $.each(value.commentList, function (commentKey, commentValue) {
+            var MessageBox = "<li class='comment'>" +
+                "<a class='pull-left' href='#'>" +
+                "<img class='avatar' src='http://bootdey.com/img/Content/user_1.jpg' alt='avatar'>" +
+                "</a>" +
+                "<div class='comment-body'>" +
+                "<div class='comment-heading'>" +
+                "<h4 class='user'>" + commentValue.userName + "</h4>" +
+                "<h5 class='time'>" + timeSince(new Date(commentValue.dateTime)) + " ago</h5>" +
+                "</div>" +
+                "<p>" + commentValue.comment + "</p>" +
+                "</div>" +
+                "</li>";
+            $(".discussion" + value.discussionId + "").append(MessageBox);
         });
     });
-     
+
     connect();
     console.log(data);
 }
@@ -418,30 +425,30 @@ function getTopicListFailure(data) {
 
 function timeSince(date) {
 
-  var seconds = Math.floor((new Date() - date) / 1000);
+    var seconds = Math.floor((new Date() - date) / 1000);
 
-  var interval = Math.floor(seconds / 31536000);
+    var interval = Math.floor(seconds / 31536000);
 
-  if (interval > 1) {
-    return interval + " years";
-  }
-  interval = Math.floor(seconds / 2592000);
-  if (interval > 1) {
-    return interval + " months";
-  }
-  interval = Math.floor(seconds / 86400);
-  if (interval > 1) {
-    return interval + " days";
-  }
-  interval = Math.floor(seconds / 3600);
-  if (interval > 1) {
-    return interval + " hours";
-  }
-  interval = Math.floor(seconds / 60);
-  if (interval > 1) {
-    return interval + " minutes";
-  }
-  return Math.floor(seconds) + " seconds";
+    if (interval > 1) {
+        return interval + " years";
+    }
+    interval = Math.floor(seconds / 2592000);
+    if (interval > 1) {
+        return interval + " months";
+    }
+    interval = Math.floor(seconds / 86400);
+    if (interval > 1) {
+        return interval + " days";
+    }
+    interval = Math.floor(seconds / 3600);
+    if (interval > 1) {
+        return interval + " hours";
+    }
+    interval = Math.floor(seconds / 60);
+    if (interval > 1) {
+        return interval + " minutes";
+    }
+    return Math.floor(seconds) + " seconds";
 }
 
 $(document).ready(function () {
@@ -460,9 +467,9 @@ $(document).ready(function () {
 
     }
 
-    $(document).on('click','.btn-send-comment',function (event) {
+    $(document).on('click', '.btn-send-comment', function (event) {
         var discussionId = $(this).attr("data-discussionId");
-        sendMessage(event, "addComment",discussionId);
+        sendMessage(event, "addComment", discussionId);
     });
 
     $("#login-submit").on('click', function (event) {
@@ -489,31 +496,31 @@ $(document).ready(function () {
     });
 
     $("#addNewDiscussion").on('click', function (event) {
-        sendMessage(event, "addDiscussion","");
+        sendMessage(event, "addDiscussion", "");
 
     });
-    $(".likeIcon").on("click",function(event) {
+    $(".likeIcon").on("click", function (event) {
 
-        if(($(this).attr("class").indexOf("likeActive")!==-1)){
+        if (($(this).attr("class").indexOf("likeActive") !== -1)) {
             $(this).removeClass("likeActive");
-        }else{
-             $(this).addClass("likeActive");
-             if($(".likeDisIcon").attr("class").indexOf("disLikeActive")!==-1){
-                 $(".likeDisIcon").removeClass("disLikeActive");
-             }
+        } else {
+            $(this).addClass("likeActive");
+            if ($(".likeDisIcon").attr("class").indexOf("disLikeActive") !== -1) {
+                $(".likeDisIcon").removeClass("disLikeActive");
+            }
         }
-        sendMessage(event,"addLike","");
+        sendMessage(event, "addLike", "");
     });
-     $(".likeDisIcon").on("click",function(event) {
-         if(($(this).attr("class").indexOf("disLikeActive")!==-1)){
+    $(".likeDisIcon").on("click", function (event) {
+        if (($(this).attr("class").indexOf("disLikeActive") !== -1)) {
             $(this).removeClass("disLikeActives");
-        }else{
-             $(this).addClass("disLikeActive");
-             if($(".likeIcon").attr("class").indexOf("likeActive")!==-1){
-                 $(".likeIcon").removeClass("likeActive");
-             }
+        } else {
+            $(this).addClass("disLikeActive");
+            if ($(".likeIcon").attr("class").indexOf("likeActive") !== -1) {
+                $(".likeIcon").removeClass("likeActive");
+            }
         }
-         sendMessage(event,"addDisLike","");
+        sendMessage(event, "addDisLike", "");
     });
 
     // messageForm.addEventListener('submit', sendMessage, true)

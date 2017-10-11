@@ -438,3 +438,7 @@ footer {
 #addNewDiscussion{
     cursor:pointer;
 }
+.bluebackground{
+    background-color: #9cd3e3;
+    border-color: #8e9698;
+}
