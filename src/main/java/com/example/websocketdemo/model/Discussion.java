@@ -9,10 +9,12 @@ import org.hibernate.annotations.LazyCollectionOption;
 import javax.persistence.*;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Getter
 @Setter
 @Entity
+@EqualsAndHashCode(of = {"topicId", "discussionId"}, callSuper = false)
 public class Discussion {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,10 +27,10 @@ public class Discussion {
     private Map<Integer, Comment> commentList;
     @LazyCollection(LazyCollectionOption.FALSE)
     @ElementCollection
-    private List<String> listOfUserLiked;
+    private Set<String> listOfUserLiked;
     @ElementCollection
     @LazyCollection(LazyCollectionOption.FALSE)
-    private List<String> listOfUserDisLiked;
+    private Set<String> listOfUserDisLiked;
     private long dateTime;
     MessageType messageType;
 }

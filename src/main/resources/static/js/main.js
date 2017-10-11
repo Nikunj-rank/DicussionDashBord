@@ -194,7 +194,7 @@ function onMessageReceived(payload) {
                         "<div class='comment-body'>"+
                             "<div class='comment-heading'>"+
                                 "<h4 class='user'>" + message.userName + "</h4>"+
-                                "<h5 class='time'>"+timeSince(new Date(Date.now()-message.dateTime))+" ago</h5>"+
+                                "<h5 class='time'>"+timeSince(new Date(message.dateTime))+" ago</h5>"+
                             "</div>"+
                             "<p>" + message.comment +"</p>"+
                         "</div>"+
@@ -210,7 +210,7 @@ function onMessageReceived(payload) {
                     "<div class='title h5'>"+
                         "<a href='#'><b>"+message.userName+"</b></a> replied on the post."+
                     "</div>"+
-                    "<h6 class='text-muted time'>"+timeSince(new Date(Date.now()-message.dateTime))+" ago</h6>"+
+                    "<h6 class='text-muted time'>"+timeSince(new Date(message.dateTime))+" ago</h6>"+
                 "</div>"+
             "</div> "+
             "<div class='post-description'> "+
@@ -233,7 +233,7 @@ function onMessageReceived(payload) {
                         "<a href='#' data-discussionId='"+message.discussionId+"' class='btn-send-comment'><i class='glyphicon glyphicon-edit'></i></a>"+                         
                     "</span>"+
                 "</div>"+
-            "</div>;"
+            "</div>";
         $(".topicList").append(discussionChunk);
 
     } else if (message.messageType == "TLIKE"){
@@ -367,7 +367,7 @@ function getTopicListSuccess(data) {
                     "<div class='title h5'>"+
                         "<b>"+value.userName+"</b> replied on the post."+
                     "</div>"+
-                    "<h6 class='text-muted time'>"+timeSince(new Date(Date.now()-value.dateTime))+" ago</h6>"+
+                    "<h6 class='text-muted time'>"+timeSince(new Date(value.dateTime))+" ago</h6>"+
                 "</div>"+
             "</div> "+
             "<div class='post-description'> "+
@@ -400,7 +400,7 @@ function getTopicListSuccess(data) {
                         "<div class='comment-body'>"+
                             "<div class='comment-heading'>"+
                                 "<h4 class='user'>" + commentValue.userName + "</h4>"+
-                                "<h5 class='time'>"+timeSince(new Date(Date.now()-commentValue.dateTime))+" ago</h5>"+
+                                "<h5 class='time'>"+timeSince(new Date(commentValue.dateTime))+" ago</h5>"+
                             "</div>"+
                             "<p>" + commentValue.comment +"</p>"+
                         "</div>"+

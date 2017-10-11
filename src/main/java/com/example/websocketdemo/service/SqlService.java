@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class SqlService {
@@ -50,7 +51,9 @@ public class SqlService {
         commentRepo.save(comment);
         Topic one1 = topicRepo.findOne(comment.getTopicId());
         one1.getDiscussions().get(comment.getDiscussionId()).getCommentList().put(comment.getCommentId(),comment);
+        discussionRepo.save(one1.getDiscussions().get(comment.getDiscussionId()));
         topicRepo.save(one1);
+        System.out.println(one1);
     }
 
     public Topic addTopicLike(Topic topic){

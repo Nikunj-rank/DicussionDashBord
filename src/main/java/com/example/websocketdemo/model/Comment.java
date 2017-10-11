@@ -13,6 +13,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
+@EqualsAndHashCode(of = {"discussionId","commentId"}, callSuper = false)
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
