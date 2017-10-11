@@ -124,9 +124,11 @@ function sendMessage(event, messageType,discussionIdValue) {
             };
 
             stompClient.send("/app/chat.addDiscussion", {}, JSON.stringify(chatMessage));
+            $("discussionDesc").val("");
         }
     } else if ("addComment" == messageType) {
         var messageContent = $("#message"+discussionIdValue+"").val();
+        $("#message"+discussionIdValue+"").val("");
 
         if (messageContent && stompClient) {
             var chatMessage = {
@@ -206,8 +208,7 @@ function onMessageReceived(payload) {
                 "</div>"+
                 "<div class='pull-left meta'>"+
                     "<div class='title h5'>"+
-                        "<a href='#'><b>"+message.userName+"</b></a>"+
-                        "replied on the post."+
+                        "<a href='#'><b>"+message.userName+"</b></a> replied on the post."+
                     "</div>"+
                     "<h6 class='text-muted time'>1 minute ago</h6>"+
                 "</div>"+
@@ -224,14 +225,14 @@ function onMessageReceived(payload) {
                 "</div>"+
             "</div>"+
             "<div class='post-footer'>"+
+                "<ul class='chat discussion"+message.discussionId+" comments-list'>"+      
+                "</ul>"+
                 "<div class='input-group'> "+
                     "<input id='message"+message.discussionId+"' class='form-control' placeholder='Add a comment' type='text'>"+
                     "<span class='input-group-addon'>"+
                         "<a href='#' data-discussionId='"+message.discussionId+"' class='btn-send-comment'><i class='glyphicon glyphicon-edit'></i></a>"+                         
                     "</span>"+
                 "</div>"+
-                "<ul class='chat discussion"+message.discussionId+" comments-list'>"+      
-                "</ul>"+
             "</div>;"
         $(".topicList").append(discussionChunk);
 
@@ -349,8 +350,7 @@ function getTopicListSuccess(data) {
                 "</div>"+
                 "<div class='pull-left meta'>"+
                     "<div class='title h5'>"+
-                        "<a href='#'><b>"+value.userName+"</b></a>"+
-                        "replied on the post."+
+                        "<a href='#'><b>"+value.userName+"</b></a> replied on the post."+
                     "</div>"+
                     "<h6 class='text-muted time'>1 minute ago</h6>"+
                 "</div>"+
@@ -367,15 +367,15 @@ function getTopicListSuccess(data) {
                 "</div>"+
             "</div>"+
             "<div class='post-footer'>"+
-                "<div class='input-group'> "+
+                "<ul class='chat discussion"+value.discussionId+" comments-list'>"+   
+                "</ul>"+
+                 "<div class='input-group'> "+
                     "<input id='message"+value.discussionId+"' class='form-control' placeholder='Add a comment' type='text'>"+
                     "<span class='input-group-addon'>"+
                         "<a href='#' data-discussionId='"+value.discussionId+"' class='btn-send-comment'><i class='glyphicon glyphicon-edit'></i></a>"+                         
                     "</span>"+
-                "</div>"+
-                "<ul class='chat discussion"+value.discussionId+" comments-list'>"+      
-                "</ul>"+
-            "</div>;"
+                "</div>"+  
+            "</div>";
         $(".topicList").append(discussionChunk);
         $.each(value.commentList,function(commentKey,commentValue){
              var MessageBox = "<li class='comment'>"+

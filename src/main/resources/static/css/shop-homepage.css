@@ -282,8 +282,6 @@ footer {
 .chat li
 {
     margin-bottom: 10px;
-    padding-bottom: 5px;
-    border-bottom: 1px dotted #B3A9A9;
 }
 
 .chat li.left .chat-body
@@ -409,7 +407,6 @@ footer {
 .post .post-footer .comments-list .comment {
   display: block;
   width: 100%;
-  margin: 20px 0;
 }
 .post .post-footer .comments-list .comment .avatar {
   width: 35px;
@@ -437,4 +434,10 @@ footer {
 }
 .post .post-footer .comments-list .comment > .comments-list {
   margin-left: 50px;
+}
+.footerDiv{
+    margin-bottom:20px;
+}
+#addNewDiscussion{
+    cursor:pointer;
 }

@@ -1,26 +1,24 @@
-/*C20*/SET SCHEMA PUBLIC
+/*C12*/SET SCHEMA PUBLIC
 alter table discussion_comment_list drop constraint UK_j44n9o6k4bxous2t4ojay1h73
 alter table discussion_comment_list add constraint UK_j44n9o6k4bxous2t4ojay1h73 unique (comment_list_comment_id)
 alter table topic_discussions drop constraint UK_mr1y2slvps2ewxehx1p9oo4ci
 alter table topic_discussions add constraint UK_mr1y2slvps2ewxehx1p9oo4ci unique (discussions_discussion_id)
-/*C21*/SET SCHEMA PUBLIC
-INSERT INTO COMMENT VALUES(2,'comment1',0,1,2,1,'user1')
-COMMIT
-DISCONNECT
-/*C20*/DISCONNECT
-/*C19*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C18*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C17*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C16*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C15*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C14*/SET SCHEMA PUBLIC
-DISCONNECT
 /*C13*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C12*/SET SCHEMA PUBLIC
-DISCONNECT
+INSERT INTO COMMENT VALUES(5,'hi',0,1,2,1,'user1')
+COMMIT
+INSERT INTO COMMENT VALUES(6,'hello',0,1,2,1,'user1')
+COMMIT
+INSERT INTO COMMENT VALUES(12,'hellofdsfsdfdsfdsfffhhhhhhhhhhhhhhhhhhhhhhjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj',0,1,2,1,'user1')
+COMMIT
+INSERT INTO COMMENT VALUES(13,'hellofdsfsdfdsfdsfffhhhhhhhhhhhhhhhhhhhhhhjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj',0,1,2,1,'user1')
+COMMIT
+INSERT INTO COMMENT VALUES(14,'hellofdsfsdfdsfdsfffhhhhhhhhhhhhhhhhhhhhhhjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj',0,1,2,1,'user1')
+COMMIT
+INSERT INTO COMMENT VALUES(15,'hellofdsfsdfdsfdsfffhhhhhhhhhhhhhhhhhhhhhhjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj',0,1,2,1,'user1')
+COMMIT
+INSERT INTO COMMENT VALUES(20,'hellofdsfsdfdsfdsfffhhhhhhhhhhhhhhhhhhhhhhjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj',0,1,2,1,'user1')
+COMMIT
+INSERT INTO COMMENT VALUES(21,'hellofdsfsdfdsfdsfffhhhhhhhhhhhhhhhhhhhhhhjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj',0,1,2,1,'user1')
+COMMIT
+INSERT INTO DISCUSSION VALUES(3,0,1,'hello',1,'user1')
+COMMIT
