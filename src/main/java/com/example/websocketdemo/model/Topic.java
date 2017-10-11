@@ -16,7 +16,6 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@EqualsAndHashCode(of = {"topicId"}, callSuper = false)
 public class Topic {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,10 +23,10 @@ public class Topic {
     private String subject;
     @ElementCollection
     @LazyCollection(LazyCollectionOption.FALSE)
-    private List<String> tags;
+    private Set<String> tags;
     @ElementCollection
     @LazyCollection(LazyCollectionOption.FALSE)
-    private List<String> keyWords;
+    private Set<String> keyWords;
     private String desc;
     private String url;
     private String userName;
@@ -37,8 +36,9 @@ public class Topic {
     @ElementCollection
     @LazyCollection(LazyCollectionOption.FALSE)
     private Set<String> listOfUserDisLiked;
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Map<Integer,Discussion> discussions;
+    @ElementCollection
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private Map<Integer, Discussion> discussions;
     private long dateTime;
     MessageType messageType;
 }

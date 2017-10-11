@@ -3,15 +3,16 @@ package com.example.websocketdemo.model;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
 @Entity
-//@EqualsAndHashCode(of = {"discussionId","commentId"}, callSuper = false)
-//@IdClass(CommentPk.class)
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,9 +22,11 @@ public class Comment {
     private String comment;
     private String userName;
     @ElementCollection
-    private List<String> listOfUserLiked;
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private Set<String> listOfUserLiked;
     @ElementCollection
-    private List<String> listOfUserDisLiked;
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private Set<String> listOfUserDisLiked;
     private long dateTime;
     MessageType messageType;
 }
