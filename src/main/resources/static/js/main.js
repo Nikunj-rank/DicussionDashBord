@@ -124,7 +124,7 @@ function sendMessage(event, messageType,discussionIdValue) {
             };
 
             stompClient.send("/app/chat.addDiscussion", {}, JSON.stringify(chatMessage));
-            $("discussionDesc").val("");
+            $("#discussionDesc").val("");
         }
     } else if ("addComment" == messageType) {
         var messageContent = $("#message"+discussionIdValue+"").val();
@@ -194,7 +194,7 @@ function onMessageReceived(payload) {
                         "<div class='comment-body'>"+
                             "<div class='comment-heading'>"+
                                 "<h4 class='user'>" + message.userName + "</h4>"+
-                                "<h5 class='time'>5 minutes ago</h5>"+
+                                "<h5 class='time'>"+timeSince(new Date(Date.now()-message.dateTime))+" ago</h5>"+
                             "</div>"+
                             "<p>" + message.comment +"</p>"+
                         "</div>"+
@@ -210,7 +210,7 @@ function onMessageReceived(payload) {
                     "<div class='title h5'>"+
                         "<a href='#'><b>"+message.userName+"</b></a> replied on the post."+
                     "</div>"+
-                    "<h6 class='text-muted time'>1 minute ago</h6>"+
+                    "<h6 class='text-muted time'>"+timeSince(new Date(Date.now()-message.dateTime))+" ago</h6>"+
                 "</div>"+
             "</div> "+
             "<div class='post-description'> "+
@@ -281,19 +281,33 @@ function getAvatarColor(messageSender) {
 
 function getPostSuccess(data) {
     var topicData = JSON.parse(data);
-    var tableRow = "<tr>" +
-        "<td>" +
-        "<h4>" +
-        "<a href='index?topicId={{tId}}'>{{topicName}}</a> " +
-        "</h4>" +
-        "</td>" +
-        "<td>{{topicDesc}}</td>" +
-        "<td>{{topicLike}}</td>" +
-        "<td>{{topicDisLike}}</td>" +
-        "</tr>";
+     var tableRow = "<div class='panel panel-white post panel-shadow'>"+
+            "<div class='post-heading'>"+
+                "<div class='pull-left image'>"+
+                    "<img src='http://bootdey.com/img/Content/user_1.jpg' class='img-circle avatar' alt='user profile image'></img>"+
+                "</div>"+
+                "<div class='pull-left meta'>"+
+                    "<div class='title h5'>"+
+                        "<b>{{topicUserName}}</b> made a post."+
+                    "</div>"+
+                    "<a href='index?topicId={{tId}}'><h4>{{topicName}}</h4></a>"+
+                "</div>"+
+            "</div>"+
+            "<div class='post-description'>"+
+                "<p>{{topicDesc}}</p>"+
+                "<div class='stats likeTab'>"+
+                    "<a href='#' data-topicId='{{tId}}' class='btn btn-default stat-item'>"+
+                        "<i class='glyphicon glyphicon-thumbs-up'></i><span>{{topicLike}}</span>"+
+                    "</a>"+
+                    "<a href='#' data-topicId='{{tId}}' class='btn btn-default stat-item'>"+
+                        "<i class='glyphicon glyphicon-thumbs-down'></i><span>{{topicDisLike}}</span>"+
+                    "</a>"+
+                "</div>"+
+            "</div>"+
+        "</div>";
     if (data) {
         $.each(topicData, function (key, value) {
-            var row = tableRow.replace("{{topicName}}", value.subject).replace("{{topicDesc}}", value.desc).replace("{{topicLike}}", value.listOfUserLiked.length).replace("{{topicDisLike}}", value.listOfUserDisLiked.length).replace("{{tId}}", value.topicId);
+            var row = tableRow.replace("{{topicName}}", value.subject).replace("{{topicDesc}}", value.desc).replace("{{topicLike}}", value.listOfUserLiked.length).replace("{{topicDisLike}}", value.listOfUserDisLiked.length).replace(/{{tId}}/g, value.topicId).replace("{{topicUserName}}",value.userName);
             $("#postTable").append(row);
         });
     }
@@ -322,8 +336,9 @@ function getUrlVars() {
 }
 
 function getTopicListSuccess(data) {
-    $("#topicName").text(data.subject);
+    $("#topicUserName").text(data.userName);
     $("#topicDesc").text(data.desc);
+     $("#topicTitle").text(data.subject);
      if(null!==data.listOfUserLiked){
         $(".topicLikeCount").text(data.listOfUserLiked.length);
      }
@@ -350,9 +365,9 @@ function getTopicListSuccess(data) {
                 "</div>"+
                 "<div class='pull-left meta'>"+
                     "<div class='title h5'>"+
-                        "<a href='#'><b>"+value.userName+"</b></a> replied on the post."+
+                        "<b>"+value.userName+"</b> replied on the post."+
                     "</div>"+
-                    "<h6 class='text-muted time'>1 minute ago</h6>"+
+                    "<h6 class='text-muted time'>"+timeSince(new Date(Date.now()-value.dateTime))+" ago</h6>"+
                 "</div>"+
             "</div> "+
             "<div class='post-description'> "+
@@ -385,7 +400,7 @@ function getTopicListSuccess(data) {
                         "<div class='comment-body'>"+
                             "<div class='comment-heading'>"+
                                 "<h4 class='user'>" + commentValue.userName + "</h4>"+
-                                "<h5 class='time'>5 minutes ago</h5>"+
+                                "<h5 class='time'>"+timeSince(new Date(Date.now()-commentValue.dateTime))+" ago</h5>"+
                             "</div>"+
                             "<p>" + commentValue.comment +"</p>"+
                         "</div>"+
@@ -399,6 +414,34 @@ function getTopicListSuccess(data) {
 }
 function getTopicListFailure(data) {
     console.log(data);
+}
+
+function timeSince(date) {
+
+  var seconds = Math.floor((new Date() - date) / 1000);
+
+  var interval = Math.floor(seconds / 31536000);
+
+  if (interval > 1) {
+    return interval + " years";
+  }
+  interval = Math.floor(seconds / 2592000);
+  if (interval > 1) {
+    return interval + " months";
+  }
+  interval = Math.floor(seconds / 86400);
+  if (interval > 1) {
+    return interval + " days";
+  }
+  interval = Math.floor(seconds / 3600);
+  if (interval > 1) {
+    return interval + " hours";
+  }
+  interval = Math.floor(seconds / 60);
+  if (interval > 1) {
+    return interval + " minutes";
+  }
+  return Math.floor(seconds) + " seconds";
 }
 
 $(document).ready(function () {
@@ -436,7 +479,7 @@ $(document).ready(function () {
             "keyWords": null,
             "desc": $("#description").val(),
             "url": "",
-            "username": localStorage.getItem('userName'),
+            "userName": localStorage.getItem('userName'),
             "listOfUserLiked": null,
             "listOfUserDisLiked": null,
             "discussions": null,
