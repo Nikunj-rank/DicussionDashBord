@@ -4,28 +4,6 @@ alter table discussion_comment_list add constraint UK_j44n9o6k4bxous2t4ojay1h73 
 alter table topic_discussions drop constraint UK_mr1y2slvps2ewxehx1p9oo4ci
 alter table topic_discussions add constraint UK_mr1y2slvps2ewxehx1p9oo4ci unique (discussions_discussion_id)
 /*C21*/SET SCHEMA PUBLIC
-INSERT INTO DISCUSSION VALUES(1,0,1,'can initiate discusion from here',1,'user1')
-COMMIT
-INSERT INTO TOPIC_DISCUSSIONS VALUES(1,1,1)
-COMMIT
-INSERT INTO COMMENT VALUES(1,'this is firest comment',0,1,2,1,'user2')
-COMMIT
-INSERT INTO DISCUSSION_COMMENT_LIST VALUES(1,1,1)
-COMMIT
-INSERT INTO COMMENT VALUES(2,'prvide the ans',0,1,2,1,'user1')
-COMMIT
-INSERT INTO DISCUSSION_COMMENT_LIST VALUES(1,2,2)
-COMMIT
-INSERT INTO DISCUSSION VALUES(2,0,1,'second thread',1,'user2')
-COMMIT
-INSERT INTO TOPIC_DISCUSSIONS VALUES(1,2,2)
-COMMIT
-INSERT INTO COMMENT VALUES(3,'second comment',0,2,2,1,'user2')
-COMMIT
-INSERT INTO DISCUSSION_COMMENT_LIST VALUES(2,3,3)
-COMMIT
-INSERT INTO TOPIC_LIST_OF_USER_LIKED VALUES(1,'user1')
-COMMIT
 DISCONNECT
 /*C20*/DISCONNECT
 /*C19*/SET SCHEMA PUBLIC
