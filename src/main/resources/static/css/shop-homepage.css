@@ -346,7 +346,7 @@ footer {
 }
 
 .post .post-heading {
-  height: 95px;
+  height: 84px;
   padding: 20px 15px 0 15px;
 }
 .post .post-heading .avatar {
@@ -391,7 +391,7 @@ footer {
 }
 .post .post-footer {
   border-top: 1px solid #ddd;
-  padding: 15px;
+  padding: 0 15px 15px 15px;
 }
 .post .post-footer .input-group-addon a {
   color: #454545;
@@ -441,4 +441,8 @@ footer {
 .bluebackground{
     background-color: #9cd3e3;
     border-color: #8e9698;
+}
+.timeText{
+    color:#999;
+    font-size:12px;
 }

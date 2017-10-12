@@ -288,7 +288,7 @@ function getPostSuccess(data) {
         "</div>" +
         "<div class='pull-left meta'>" +
         "<div class='title h5'>" +
-        "<b>{{topicUserName}}</b> made a post." +
+        "<b>{{topicUserName}}</b> made a post. <span class='timeText'>{{topicTime}}  ago.</span>" +
         "</div>" +
         "<a href='index?topicId={{tId}}'><h4>{{topicName}}</h4></a>" +
         "</div>" +
@@ -308,7 +308,7 @@ function getPostSuccess(data) {
     if (data) {
         var backgroundCounter=1;
         $.each(topicData, function (key, value) {
-            var row = tableRow.replace("{{topicName}}", value.subject).replace("{{topicDesc}}", value.desc).replace("{{topicLike}}", value.listOfUserLiked.length).replace("{{topicDisLike}}", value.listOfUserDisLiked.length).replace(/{{tId}}/g, value.topicId).replace("{{topicUserName}}", value.userName);
+            var row = tableRow.replace("{{topicName}}", value.subject).replace("{{topicDesc}}", value.desc).replace("{{topicLike}}", value.listOfUserLiked.length).replace("{{topicDisLike}}", value.listOfUserDisLiked.length).replace(/{{tId}}/g, value.topicId).replace("{{topicUserName}}", value.userName).replace("{{topicTime}}",timeSince(new Date(value.dateTime)));
             if (backgroundCounter % 2 == 0) {
                 row = row.replace("{{background}}", "");
             } else {
@@ -346,6 +346,7 @@ function getTopicListSuccess(data) {
     $("#topicUserName").text(data.userName);
     $("#topicDesc").text(data.desc);
     $("#topicTitle").text(data.subject);
+    $(".timeText span").text(timeSince(new Date(data.dateTime)));
     if (null !== data.listOfUserLiked) {
         $(".topicLikeCount").text(data.listOfUserLiked.length);
     }
