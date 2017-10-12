@@ -180,11 +180,11 @@ function onMessageReceived(payload) {
             "<ul class='chat discussion" + message.discussionId + " comments-list'>" +
             "</ul>" +
             "<div class='input-group'> " +
-            "<input id='message" + message.discussionId + "' class='form-control' placeholder='Add a comment' type='text'>" +
+            "<input data-discussionId='" + message.discussionId + "' id='message" + message.discussionId + "' class='form-control replyMessage' placeholder='Add a comment' type='text'>" +
             "<span class='input-group-addon'>" +
-            "<a href='#' data-discussionId='" + message.discussionId + "' class='btn-send-comment'><i class='glyphicon glyphicon-edit'></i></a>" +
+            "<a href='#' id='btn-send-comment"+message.discussionId+"' data-discussionId='" + message.discussionId + "' class='btn-send-comment'><i class='glyphicon glyphicon-edit'></i></a>" +
             "</span>" +
-            "</div>" +
+            "</div>" +  
             "</div>";
         $(".topicList").append(discussionChunk);
 
@@ -197,7 +197,7 @@ function onMessageReceived(payload) {
         if (null !== message.listOfUserLiked)
             $(".discussionLikeCountT" + message.topicId + "D" + message.discussionId + "").text(message.listOfUserLiked.length);
         if (null !== message.listOfUserDisLiked)
-            $(".discussionDisLikeCountT" + message.topicId + "D" + message.discussionId + "").text(message.listOfUserLiked.length);
+            $(".discussionDisLikeCountT" + message.topicId + "D" + message.discussionId + "").text(message.listOfUserDisLiked.length);
     }
 
     //     messageElement.classList.add('chat-message');
@@ -264,6 +264,9 @@ function getPostSuccess(data) {
         "</div>";
     if (data) {
         var backgroundCounter = 1;
+        if(topicData.length>0)
+        {
+        $("#postTable").text("");
         $.each(topicData, function (key, value) {
             var row = tableRow.replace("{{topicName}}", value.subject).replace("{{topicDesc}}", value.desc).replace("{{topicLike}}", value.listOfUserLiked.length).replace("{{topicDisLike}}", value.listOfUserDisLiked.length).replace(/{{tId}}/g, value.topicId).replace("{{topicUserName}}", value.userName).replace("{{topicTime}}", timeSince(new Date(value.dateTime)));
             if (backgroundCounter % 2 == 0) {
@@ -274,6 +277,7 @@ function getPostSuccess(data) {
             backgroundCounter++;
             $("#postTable").append(row);
         });
+        }
     }
 }
 
@@ -350,9 +354,9 @@ function getTopicListSuccess(data) {
             "<ul class='chat discussion" + value.discussionId + " comments-list'>" +
             "</ul>" +
             "<div class='input-group'> " +
-            "<input id='message" + value.discussionId + "' class='form-control' placeholder='Add a comment' type='text'>" +
+            "<input data-discussionId='" + value.discussionId + "' id='message" + value.discussionId + "' class='form-control replyMessage' placeholder='Add a comment' type='text'>" +
             "<span class='input-group-addon'>" +
-            "<a href='#' data-discussionId='" + value.discussionId + "' class='btn-send-comment'><i class='glyphicon glyphicon-edit'></i></a>" +
+            "<a href='#' id='btn-send-comment"+value.discussionId+"' data-discussionId='" + value.discussionId + "' class='btn-send-comment'><i class='glyphicon glyphicon-edit'></i></a>" +
             "</span>" +
             "</div>" +
             "</div>";
@@ -361,7 +365,7 @@ function getTopicListSuccess(data) {
             $(".discussionLikeIconT" + data.topicId + "D" + value.discussionId + "").addClass("likeActive");
         }
         if ($.inArray(localStorage.getItem('userName'), value.listOfUserDisLiked) !== -1) {
-            $(".discussionLikeIconT" + data.topicId + "D" + value.discussionId + "").addClass("disLikeActive");
+            $(".discussionDisLikeIconT" + data.topicId + "D" + value.discussionId + "").addClass("disLikeActive");
         }
         $.each(value.commentList, function (commentKey, commentValue) {
             var MessageBox = "<li class='comment'>" +
@@ -433,13 +437,13 @@ $(document).ready(function () {
 
     $(document).on('click', '.btn-send-comment', function (event) {
         var discussionId = $(this).attr("data-discussionId");
-        var messageContent = $("#message" + discussionIdValue + "").val();
-        $("#message" + discussionIdValue + "").val("");
+        var messageContent = $("#message" + discussionId + "").val();
+        $("#message" + discussionId + "").val("");
 
         if (messageContent && stompClient) {
             var chatMessage = {
                 topicId: commonConstants.sTopicId,
-                discussionId: discussionIdValue,
+                discussionId: discussionId,
                 listOfUserLiked: null,
                 listOfUserDisLiked: null,
                 dateTime: null,
@@ -588,6 +592,35 @@ $(document).ready(function () {
         };
         sendMessage(event, "addDiscussionDisLike", "", chatMessage);
     });
+
+
+    //List of Enter Key Events
+    
+    $("#discussionDesc").keyup(function(event){
+    if(event.keyCode == 13){
+        $("#addNewDiscussion").click();
+    }
+});
+
+$(document).on('keyup', '.replyMessage', function (event) {
+    if(event.keyCode == 13){
+        var discussionId = $(this).attr("data-discussionId");
+        $("#btn-send-comment"+discussionId).click();
+    }
+});
+
+ $("#userNameId").keyup(function(event){
+    if(event.keyCode == 13){
+        $("#login-submit").click();
+    }
+});
+
+ $("#passwordId").keyup(function(event){
+    if(event.keyCode == 13){
+        $("#login-submit").click();
+    }
+});
+
 
 
     // messageForm.addEventListener('submit', sendMessage, true)
