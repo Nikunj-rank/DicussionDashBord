@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class ResourceMappingController {
 
-    private final Logger logger = LoggerFactory.getLogger(ResourceMappingController.class);
-
     @GetMapping("/")
     public String root() {
         return "login";

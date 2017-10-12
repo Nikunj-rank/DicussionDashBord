@@ -15,15 +15,13 @@ import java.util.Map;
 public class SqlService {
 
     @Autowired
-    TopicRepo topicRepo;
+    private TopicRepo topicRepo;
 
     @Autowired
-    DiscussionRepo discussionRepo;
+    private DiscussionRepo discussionRepo;
 
     @Autowired
-    CommentRepo commentRepo;
-
-    int count=1;
+    private CommentRepo commentRepo;
 
     public List<Topic> getAllTopic(){
         List<Topic> topics = new ArrayList<>();
@@ -41,7 +39,6 @@ public class SqlService {
 
     public void addDiscussion(Discussion discussion){
         discussionRepo.save(discussion);
-        discussion.setDiscussionId(count++);
         Topic one = topicRepo.findOne(discussion.getTopicId());
         one.getDiscussions().put(discussion.getDiscussionId(),discussion);
         topicRepo.save(one);
@@ -49,33 +46,34 @@ public class SqlService {
 
     public void addComment(Comment comment){
         commentRepo.save(comment);
-        Topic one1 = topicRepo.findOne(comment.getTopicId());
-        one1.getDiscussions().get(comment.getDiscussionId()).getCommentList().put(comment.getCommentId(),comment);
-        discussionRepo.save(one1.getDiscussions().get(comment.getDiscussionId()));
-        topicRepo.save(one1);
-        System.out.println(one1);
+        Topic topic = topicRepo.findOne(comment.getTopicId());
+        topic.getDiscussions().get(comment.getDiscussionId()).getCommentList().put(comment.getCommentId(),comment);
+        discussionRepo.save(topic.getDiscussions().get(comment.getDiscussionId()));
+        topicRepo.save(topic);
+        System.out.println(topic);
     }
 
     public Topic addTopicLike(Topic topic){
-        Topic one1 = topicRepo.findOne(topic.getTopicId());
+        Topic topicObj = topicRepo.findOne(topic.getTopicId());
+        String userName = topic.getUserName();
 
         if(topic.getListOfUserLiked()==null){
-            if(one1.getListOfUserDisLiked().contains(topic.getUserName())){
-                one1.getListOfUserDisLiked().remove(topic.getUserName());
+            if(topicObj.getListOfUserDisLiked().contains(userName)){
+                topicObj.getListOfUserDisLiked().remove(userName);
             }else {
-                one1.getListOfUserLiked().remove(topic.getUserName());
-                one1.getListOfUserDisLiked().add(topic.getUserName());
+                topicObj.getListOfUserLiked().remove(userName);
+                topicObj.getListOfUserDisLiked().add(userName);
             }
         }else {
-            if(one1.getListOfUserLiked().contains(topic.getUserName())){
-                one1.getListOfUserLiked().remove(topic.getUserName());
+            if(topicObj.getListOfUserLiked().contains(userName)){
+                topicObj.getListOfUserLiked().remove(userName);
             }else {
-                one1.getListOfUserDisLiked().remove(topic.getUserName());
-                one1.getListOfUserLiked().add(topic.getUserName());
+                topicObj.getListOfUserDisLiked().remove(userName);
+                topicObj.getListOfUserLiked().add(userName);
             }
         }
-        topicRepo.save(one1);
-        one1.setMessageType(MessageType.TLIKE);
-        return one1;
+        topicRepo.save(topicObj);
+        topicObj.setMessageType(MessageType.TLIKE);
+        return topicObj;
     }
 }
