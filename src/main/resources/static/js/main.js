@@ -169,10 +169,10 @@ function onMessageReceived(payload) {
             "<p>" + message.post + "</p>" +
             "<div class='stats'>" +
             "<a href='#' data-topicId='" + commonConstants.sTopicId + "' data-discussionId='" + message.discussionId + "' class='btn btn-default stat-item discussionLikeIcon'>" +
-            "<i class='glyphicon glyphicon-thumbs-up'></i><span class='discussionLikeCountT"+ commonConstants.sTopicId+"D"+message.discussionId+"'>" + (null !== message.listOfUserLiked) ? message.listOfUserLiked.length : 0 + "</span>" +
+            "<i class='glyphicon glyphicon-thumbs-up'></i><span class='discussionLikeCountT"+ commonConstants.sTopicId+"D"+message.discussionId+"'>" + ((null !== message.listOfUserLiked) ? message.listOfUserLiked.length : 0) + "</span>" +
                 "</a>" +
                 "<a href='#' data-topicId='" + commonConstants.sTopicId + "' data-discussionId='" + message.discussionId + "' class='btn btn-default stat-item discussionLikeDisIcon'>" +
-                "<i class='glyphicon glyphicon-thumbs-down'></i><span class='discussionDisLikeCountT"+ commonConstants.sTopicId+"D"+message.discussionId+"'>" + (null !== message.listOfUserDisLiked) ? message.listOfUserDisLiked.length : 0 + "</span>" +
+                "<i class='glyphicon glyphicon-thumbs-down'></i><span class='discussionDisLikeCountT"+ commonConstants.sTopicId+"D"+message.discussionId+"'>" + ((null !== message.listOfUserDisLiked) ? message.listOfUserDisLiked.length : 0) + "</span>" +
                 "</a>" +
                 "</div>" +
                 "</div>" +
