@@ -49,6 +49,12 @@ public class DiscussionController {
         return sqlService.addTopicLike(topic);
     }
 
+    @MessageMapping("/chat.discussion.like")
+    @SendTo("/channel/public")
+    public Discussion addDiscussionLike(@Payload Discussion discussion) {
+        return sqlService.addDiscussionLike(discussion);
+    }
+
 
     @PostMapping("/topics")
     public ResponseEntity<String> getAllTopic() {
