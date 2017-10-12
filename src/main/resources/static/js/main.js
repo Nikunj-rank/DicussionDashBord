@@ -1,8 +1,6 @@
 'use strict';
-// var messageForm = document.querySelector('#messageForm');
 var messageInput = document.querySelector('#message');
 var messageArea = document.querySelector('#messageArea');
-// var connectingElement = document.querySelector('.connecting');
 
 var stompClient = null;
 var username = null;
@@ -82,7 +80,6 @@ function connect() {
 
         stompClient.connect({}, onConnected, onError);
     }
-    // event.preventDefault();
 }
 
 
@@ -96,13 +93,11 @@ function onConnected() {
         JSON.stringify({ sender: username, type: 'JOIN' })
     )
 
-    // connectingElement.classList.add('hidden');
 }
 
 
 function onError(error) {
-    // connectingElement.textContent = 'Could not connect to WebSocket server. Please refresh this page to try again!';
-    // connectingElement.style.color = 'red';
+    console.log(error);
 }
 
 
@@ -132,13 +127,6 @@ function sendMessage(event, messageType, discussionIdValue, chatMessage) {
 function onMessageReceived(payload) {
     var message = JSON.parse(payload.body);
     if (message.messageType == "COMMENT") {
-        // if(message.type === 'JOIN') {
-        //     messageElement.classList.add('event-message');
-        //     message.content = message.sender + ' joined!';
-        // } else if (message.type === 'LEAVE') {
-        //     messageElement.classList.add('event-message');
-        //     message.content = message.sender + ' left!';
-        // } else {
         var MessageBox = "<li class='comment'>" +
             "<a class='pull-left' href='#'>" +
             "<img class='avatar' src='http://bootdey.com/img/Content/user_1.jpg' alt='avatar'>" +
@@ -199,30 +187,6 @@ function onMessageReceived(payload) {
         if (null !== message.listOfUserDisLiked)
             $(".discussionDisLikeCountT" + message.topicId + "D" + message.discussionId + "").text(message.listOfUserDisLiked.length);
     }
-
-    //     messageElement.classList.add('chat-message');
-
-    //     var avatarElement = document.createElement('i');
-    //     var avatarText = document.createTextNode(message.sender[0]);
-    //     avatarElement.appendChild(avatarText);
-    //     avatarElement.style['background-color'] = getAvatarColor(message.sender);
-
-    //     messageElement.appendChild(avatarElement);
-
-    //     var usernameElement = document.createElement('span');
-    //     var usernameText = document.createTextNode(message.sender);
-    //     usernameElement.appendChild(usernameText);
-    //     messageElement.appendChild(usernameElement);
-    // // }
-
-    // var textElement = document.createElement('p');
-    // var messageText = document.createTextNode(message.content);
-    // textElement.appendChild(messageText);
-
-    // messageElement.appendChild(textElement);
-
-    // messageArea.appendChild(messageElement);
-    // messageArea.scrollTop = messageArea.scrollHeight;
 }
 
 
@@ -420,7 +384,6 @@ function timeSince(date) {
 }
 
 $(document).ready(function () {
-    //usernameForm.addEventListener('submit', connect, true);
     if (0 !== $("#dashboardPage").length) {
         oCommonObject.callService("topics", localStorage.getItem('userName'), getPostSuccess, getPostFailure, null, null);
     } else if (0 !== $("#indexPage").length) {
@@ -450,7 +413,6 @@ $(document).ready(function () {
                 userName: username,
                 comment: messageContent,
                 messageType: "COMMENT"
-                // type: 'CHAT'
             };
 
             sendMessage(event, "addComment", discussionId, chatMessage);
@@ -494,7 +456,6 @@ $(document).ready(function () {
                 dateTime: null,
                 messageType: "DISCUSSION"
             };
-            // type: 'CHAT'
 
             sendMessage(event, "addDiscussion", "", chatMessage);
         }
@@ -521,7 +482,6 @@ $(document).ready(function () {
             userName: username,
             comment: "",
             messageType: "TLIKE"
-            // type: 'CHAT'
         };
         sendMessage(event, "addLike", "", chatMessage);
     });
@@ -543,7 +503,6 @@ $(document).ready(function () {
             userName: username,
             comment: "",
             messageType: "TLIKE"
-            // type: 'CHAT'
         };
         sendMessage(event, "addDisLike", "", chatMessage);
     });
@@ -565,7 +524,6 @@ $(document).ready(function () {
             userName: username,
             comment: "",
             messageType: "DLIKE"
-            // type: 'CHAT'
         };
         sendMessage(event, "addDiscussionLike", "", chatMessage);
     });
@@ -588,7 +546,6 @@ $(document).ready(function () {
             userName: username,
             comment: "",
             messageType: "DLIKE"
-            // type: 'CHAT'
         };
         sendMessage(event, "addDiscussionDisLike", "", chatMessage);
     });
@@ -621,9 +578,6 @@ $(document).on('keyup', '.replyMessage', function (event) {
     }
 });
 
-
-
-    // messageForm.addEventListener('submit', sendMessage, true)
 });
 
 function doLogin(event) {
