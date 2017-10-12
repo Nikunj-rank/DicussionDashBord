@@ -1,6 +1,5 @@
 package com.example.websocketdemo.controller;
 
-import com.example.websocketdemo.model.ChatMessage;
 import com.example.websocketdemo.model.Comment;
 import com.example.websocketdemo.model.Discussion;
 import com.example.websocketdemo.model.Topic;
@@ -18,47 +17,27 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.Instant;
-import java.util.List;
-import java.util.concurrent.CompletionException;
 
 @Controller
 public class DiscussionController {
 
     @Autowired
-    SqlService sqlService;
+    private SqlService sqlService;
 
     private Gson gson = new Gson();
 
-    @MessageMapping("/chat.sendMessage")
-    @SendTo("/channel/public")
-    public ChatMessage sendMessage(@Payload ChatMessage chatMessage) {
-        return chatMessage;
-    }
-
-    @MessageMapping("/chat.addUser")
-    @SendTo("/channel/public")
-    public ChatMessage addUser(@Payload ChatMessage chatMessage,
-                               SimpMessageHeaderAccessor headerAccessor) {
-        headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
-        return chatMessage;
-    }
-
     @MessageMapping("/chat.addDiscussion")
     @SendTo("/channel/public")
-    public Discussion addDiscussion(@Payload Discussion discussion,
-                                    SimpMessageHeaderAccessor headerAccessor) {
+    public Discussion addDiscussion(@Payload Discussion discussion) {
         discussion.setDateTime(Instant.now().toEpochMilli());
-        headerAccessor.getSessionAttributes().put("type", "discussion");
         sqlService.addDiscussion(discussion);
         return discussion;
     }
 
     @MessageMapping("/chat.addComment")
     @SendTo("/channel/public")
-    public Comment addComment(@Payload Comment comment,
-                              SimpMessageHeaderAccessor headerAccessor) {
+    public Comment addComment(@Payload Comment comment) {
         comment.setDateTime(Instant.now().toEpochMilli());
-        headerAccessor.getSessionAttributes().put("username", comment.getUserName());
         sqlService.addComment(comment);
         return comment;
     }
@@ -66,8 +45,7 @@ public class DiscussionController {
 
     @MessageMapping("/chat.topic.like")
     @SendTo("/channel/public")
-    public Topic addTopicLike(@Payload Topic topic,
-                              SimpMessageHeaderAccessor headerAccessor) {
+    public Topic addTopicLike(@Payload Topic topic) {
         return sqlService.addTopicLike(topic);
     }
 
@@ -81,7 +59,7 @@ public class DiscussionController {
     public ResponseEntity<Boolean> addTopic(@RequestBody Topic topic) {
         topic.setDateTime(Instant.now().toEpochMilli());
         sqlService.addTopic(topic);
-        return new ResponseEntity<>( HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
     @PostMapping(value = "/topic/id", headers = "Accept=application/json")
