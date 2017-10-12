@@ -186,7 +186,7 @@ function onMessageReceived(payload) {
             "</span>" +
             "</div>" +  
             "</div>";
-        $(".topicList").append(discussionChunk);
+        $(".topicList .discussionList").prepend(discussionChunk);
 
     } else if (message.messageType == "TLIKE") {
         if (null !== message.listOfUserLiked)
@@ -253,10 +253,10 @@ function getPostSuccess(data) {
         "<div class='post-description'>" +
         "<p>{{topicDesc}}</p>" +
         "<div class='stats likeTab'>" +
-        "<a href='#' data-topicId='{{tId}}' class='btn btn-default stat-item'>" +
+        "<a href='#' data-topicId='{{tId}}' class='disabled btn btn-default stat-item'>" +
         "<i class='glyphicon glyphicon-thumbs-up'></i><span>{{topicLike}}</span>" +
         "</a>" +
-        "<a href='#' data-topicId='{{tId}}' class='btn btn-default stat-item'>" +
+        "<a href='#' data-topicId='{{tId}}' class='disabled btn btn-default stat-item'>" +
         "<i class='glyphicon glyphicon-thumbs-down'></i><span>{{topicDisLike}}</span>" +
         "</a>" +
         "</div>" +
@@ -275,7 +275,7 @@ function getPostSuccess(data) {
                 row = row.replace("{{background}}", "bluebackground");
             }
             backgroundCounter++;
-            $("#postTable").append(row);
+            $("#postTable").prepend(row);
         });
         }
     }
@@ -360,7 +360,7 @@ function getTopicListSuccess(data) {
             "</span>" +
             "</div>" +
             "</div>";
-        $(".topicList").append(discussionChunk);
+        $(".topicList .discussionList").prepend(discussionChunk);
         if ($.inArray(localStorage.getItem('userName'), value.listOfUserLiked) !== -1) {
             $(".discussionLikeIconT" + data.topicId + "D" + value.discussionId + "").addClass("likeActive");
         }
