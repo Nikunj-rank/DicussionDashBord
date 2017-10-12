@@ -99,7 +99,7 @@ public class SqlService {
         topicObj.getDiscussions().put(discussion.getDiscussionId(), discussion);
         discussionRepo.save(discussion);
         topicRepo.save(topicObj);
-        topicObj.setMessageType(MessageType.TLIKE);
+        topicObj.setMessageType(MessageType.DLIKE);
         return discussion;
     }
 }
