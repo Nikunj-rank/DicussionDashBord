@@ -168,24 +168,24 @@ function onMessageReceived(payload) {
             "<div class='post-description'> " +
             "<p>" + message.post + "</p>" +
             "<div class='stats'>" +
-            "<a href='#' data-topicId='" + commonConstants.sTopicId + "' data-discussionId='" + message.discussionId + "' class='btn btn-default stat-item discussionLikeIcon'>" +
+            "<a href='#' data-topicId='" + commonConstants.sTopicId + "' data-discussionId='" + message.discussionId + "' class='btn btn-default stat-item discussionLikeIcon discussionLikeIconT" + commonConstants.sTopicId + "D" + message.discussionId + "'>" +
             "<i class='glyphicon glyphicon-thumbs-up'></i><span class='discussionLikeCountT" + commonConstants.sTopicId + "D" + message.discussionId + "'>" + ((null !== message.listOfUserLiked) ? message.listOfUserLiked.length : 0) + "</span>" +
-                "</a>" +
-                "<a href='#' data-topicId='" + commonConstants.sTopicId + "' data-discussionId='" + message.discussionId + "' class='btn btn-default stat-item discussionLikeDisIcon'>" +
-                "<i class='glyphicon glyphicon-thumbs-down'></i><span class='discussionDisLikeCountT" + commonConstants.sTopicId + "D" + message.discussionId + "'>" + ((null !== message.listOfUserDisLiked) ? message.listOfUserDisLiked.length : 0) + "</span>" +
-                "</a>" +
-                "</div>" +
-                "</div>" +
-                "<div class='post-footer'>" +
-                "<ul class='chat discussion" + message.discussionId + " comments-list'>" +
-                "</ul>" +
-                "<div class='input-group'> " +
-                "<input id='message" + message.discussionId + "' class='form-control' placeholder='Add a comment' type='text'>" +
-                "<span class='input-group-addon'>" +
-                "<a href='#' data-discussionId='" + message.discussionId + "' class='btn-send-comment'><i class='glyphicon glyphicon-edit'></i></a>" +
-                "</span>" +
-                "</div>" +
-                "</div>";
+            "</a>" +
+            "<a href='#' data-topicId='" + commonConstants.sTopicId + "' data-discussionId='" + message.discussionId + "' class='btn btn-default stat-item discussionLikeDisIcon discussionDisLikeIconT" + commonConstants.sTopicId + "D" + message.discussionId + "'>" +
+            "<i class='glyphicon glyphicon-thumbs-down'></i><span class='discussionDisLikeCountT" + commonConstants.sTopicId + "D" + message.discussionId + "'>" + ((null !== message.listOfUserDisLiked) ? message.listOfUserDisLiked.length : 0) + "</span>" +
+            "</a>" +
+            "</div>" +
+            "</div>" +
+            "<div class='post-footer'>" +
+            "<ul class='chat discussion" + message.discussionId + " comments-list'>" +
+            "</ul>" +
+            "<div class='input-group'> " +
+            "<input id='message" + message.discussionId + "' class='form-control' placeholder='Add a comment' type='text'>" +
+            "<span class='input-group-addon'>" +
+            "<a href='#' data-discussionId='" + message.discussionId + "' class='btn-send-comment'><i class='glyphicon glyphicon-edit'></i></a>" +
+            "</span>" +
+            "</div>" +
+            "</div>";
         $(".topicList").append(discussionChunk);
 
     } else if (message.messageType == "TLIKE") {
@@ -338,25 +338,31 @@ function getTopicListSuccess(data) {
             "<div class='post-description'> " +
             "<p>" + value.post + "</p>" +
             "<div class='stats'>" +
-            "<a href='#' data-topicId='" + data.topicId + "' data-discussionId='" + value.discussionId + "' class='btn btn-default stat-item discussionLikeIcon'>" +
+            "<a href='#' data-topicId='" + data.topicId + "' data-discussionId='" + value.discussionId + "' class='btn btn-default stat-item discussionLikeIcon discussionLikeIconT" + data.topicId + "D" + value.discussionId + "'>" +
             "<i class='glyphicon glyphicon-thumbs-up'></i><span class='discussionLikeCountT" + data.topicId + "D" + value.discussionId + "'>" + ((null !== value.listOfUserLiked) ? value.listOfUserLiked.length : 0) + "</span>" +
-                "</a>" +
-                "<a href='#' data-topicId='" + data.topicId + "' data-discussionId='" + value.discussionId + "' class='btn btn-default stat-item discussionLikeDisIcon'>" +
-                "<i class='glyphicon glyphicon-thumbs-down'></i><span class='discussionDisLikeCountT" + data.topicId + "D" + value.discussionId + "'>" + ((null !== value.listOfUserDisLiked) ? value.listOfUserDisLiked.length : 0) + "</span>" +
-                "</a>" +
-                "</div>" +
-                "</div>" +
-                "<div class='post-footer'>" +
-                "<ul class='chat discussion" + value.discussionId + " comments-list'>" +
-                "</ul>" +
-                "<div class='input-group'> " +
-                "<input id='message" + value.discussionId + "' class='form-control' placeholder='Add a comment' type='text'>" +
-                "<span class='input-group-addon'>" +
-                "<a href='#' data-discussionId='" + value.discussionId + "' class='btn-send-comment'><i class='glyphicon glyphicon-edit'></i></a>" +
-                "</span>" +
-                "</div>" +
-                "</div>";
+            "</a>" +
+            "<a href='#' data-topicId='" + data.topicId + "' data-discussionId='" + value.discussionId + "' class='btn btn-default stat-item discussionLikeDisIcon discussionDisLikeIconT" + data.topicId + "D" + value.discussionId + "'>" +
+            "<i class='glyphicon glyphicon-thumbs-down'></i><span class='discussionDisLikeCountT" + data.topicId + "D" + value.discussionId + "'>" + ((null !== value.listOfUserDisLiked) ? value.listOfUserDisLiked.length : 0) + "</span>" +
+            "</a>" +
+            "</div>" +
+            "</div>" +
+            "<div class='post-footer'>" +
+            "<ul class='chat discussion" + value.discussionId + " comments-list'>" +
+            "</ul>" +
+            "<div class='input-group'> " +
+            "<input id='message" + value.discussionId + "' class='form-control' placeholder='Add a comment' type='text'>" +
+            "<span class='input-group-addon'>" +
+            "<a href='#' data-discussionId='" + value.discussionId + "' class='btn-send-comment'><i class='glyphicon glyphicon-edit'></i></a>" +
+            "</span>" +
+            "</div>" +
+            "</div>";
         $(".topicList").append(discussionChunk);
+        if ($.inArray(localStorage.getItem('userName'), value.listOfUserLiked) !== -1) {
+            $(".discussionLikeIconT" + data.topicId + "D" + value.discussionId + "").addClass("likeActive");
+        }
+        if ($.inArray(localStorage.getItem('userName'), value.listOfUserDisLiked) !== -1) {
+            $(".discussionLikeIconT" + data.topicId + "D" + value.discussionId + "").addClass("disLikeActive");
+        }
         $.each(value.commentList, function (commentKey, commentValue) {
             var MessageBox = "<li class='comment'>" +
                 "<a class='pull-left' href='#'>" +
@@ -457,8 +463,8 @@ $(document).ready(function () {
         var oTopicDetails = {
             // "id":1,
             "subject": $("#subjectName").val(),
-            "tags": null,
-            "keyWords": null,
+            "tags": $("#tagList").tagsinput('items'),
+            "keyWords": $("#keyWordList").tagsinput('items'),
             "desc": $("#description").val(),
             "url": "",
             "userName": localStorage.getItem('userName'),
