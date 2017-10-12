@@ -80,26 +80,28 @@ public class SqlService {
     public Discussion addDiscussionLike(Discussion discussion) {
         Topic topicObj = topicRepo.findOne(discussion.getTopicId());
         String userName = discussion.getUserName();
+        Discussion discussion1 = topicObj.getDiscussions().get(discussion.getDiscussionId());
 
         if (discussion.getListOfUserLiked() != null) {
-            if (discussion.getListOfUserLiked().contains(userName)) {
-                discussion.getListOfUserLiked().remove(userName);
+            if (discussion1.getListOfUserLiked().contains(userName)) {
+                discussion1.getListOfUserLiked().remove(userName);
             } else {
-                discussion.getListOfUserDisLiked().remove(userName);
-                discussion.getListOfUserLiked().add(userName);
+                discussion1.getListOfUserDisLiked().remove(userName);
+                discussion1.getListOfUserLiked().add(userName);
             }
         } else {
-            if (discussion.getListOfUserDisLiked().contains(userName)) {
-                discussion.getListOfUserDisLiked().remove(userName);
+            if (discussion1.getListOfUserDisLiked().contains(userName)) {
+                discussion1.getListOfUserDisLiked().remove(userName);
             } else {
-                discussion.getListOfUserLiked().remove(userName);
-                discussion.getListOfUserDisLiked().add(userName);
+                discussion1.getListOfUserLiked().remove(userName);
+                discussion1.getListOfUserDisLiked().add(userName);
             }
         }
-        topicObj.getDiscussions().put(discussion.getDiscussionId(), discussion);
-        discussionRepo.save(discussion);
+        topicObj.getDiscussions().put(discussion.getDiscussionId(), discussion1);
+        discussionRepo.save(discussion1);
         topicRepo.save(topicObj);
         topicObj.setMessageType(MessageType.DLIKE);
-        return discussion;
+        discussion1.setMessageType(MessageType.DLIKE);
+        return discussion1;
     }
 }
